@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <h3 class="text-center">Welcome {{ Auth::user()->nom }}</h3>
+    <h3 class="text-center">Your discussion with {{ $entreprise->nom }}</h3>
     <section style="background-color: #eee;">
         <div class="container py-5">
 
@@ -18,12 +18,14 @@
                         <div class="card-body">
                             <div id="chat-messages">
 
-                                @foreach ($entreprise->messages()->orderBy('created_at')->get() as $message)
-                                    @if ($message->author->id == Auth::id())
+                                @foreach ($entreprise->messages()->orderBy('created_at')->get()
+        as $message)
+                                    @if ($message->author_id == Auth::id())
                                         <div class="d-flex flex-row justify-content-start mb-4">
                                             <div class="p-3 ms-3"
                                                 style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
                                                 <p class="small mb-0">{{ $message->msg }}</p>
+                                                <span class="text-secondary small mt-2 mb-0">{{ $message->created_at }}</span>
                                             </div>
                                         </div>
                                     @else
@@ -31,6 +33,7 @@
                                             <div class="p-3 me-3 border"
                                                 style="border-radius: 15px; background-color: #fbfbfb;">
                                                 <p class="small mb-0">{{ $message->msg }}</p>
+                                                <span class="text-secondary small mt-2 mb-0">{{ $message->created_at }}</span>
                                             </div>
                                         </div>
 
@@ -41,8 +44,9 @@
                                 <form action="{{ route('chat.store', $entreprise->tva) }}" method="post">
                                     @csrf
                                     <textarea name="msg" class="form-control" id="textAreaExample" rows="4"></textarea>
-                                    <label class="form-label"  for="msg">Type your message</label>
-                                    <button type="submit" class="btn btn-primary">Send</button>
+                                    <div class="text-center mt-4">
+                                        <button type="submit" class="btn btn-primary">Send</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>

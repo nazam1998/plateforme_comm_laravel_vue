@@ -17,7 +17,7 @@ class ChatController extends Controller
             ->groupBy('entreprises.tva')
             ->orderByRaw('max(chats.created_at) desc')
             ->get();
-            
+
         return view('messages.index', compact('entreprises'));
     }
     /**

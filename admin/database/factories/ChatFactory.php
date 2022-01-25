@@ -16,19 +16,23 @@ class ChatFactory extends Factory
     public function definition()
     {
         $entreprise = Entreprise::inRandomOrder()->first();
+
         $admin = User::first();
 
+        // Choisis un chiffre au hasard  pour choisir soit l'admin soit l'entreprise
+
         $rand = rand(0, 200);
-        if($rand>100){
-            $currentUser = $admin;
-        }else{
-            $currentUser = $entreprise->user;
+
+        if ($rand > 100) {
+            $currentUser = $admin->id;
+        } else {
+            $currentUser = $entreprise->user_id;
         }
 
         return [
             'entreprise_id' => $entreprise->tva,
-            'author_id'=>$currentUser->id,
-            'msg'=>$this->faker->realText(),
+            'author_id' => $currentUser,
+            'msg' => $this->faker->realText(),
 
         ];
     }
