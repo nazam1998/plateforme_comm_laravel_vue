@@ -17,7 +17,7 @@
         <v-card class="mb-12" height="100%">
           <v-row>
             <v-col cols="12">
-              <form-entreprise/>
+              <form-entreprise />
             </v-col>
           </v-row>
         </v-card>
@@ -28,7 +28,9 @@
       </v-stepper-content>
 
       <v-stepper-content step="2">
-        <v-card class="mb-12" height="100%"></v-card>
+        <v-card class="mb-12" height="100%">
+          <form-contact />
+        </v-card>
 
         <v-btn color="primary" @click="e1 = 3"> Continue </v-btn>
 
@@ -37,22 +39,41 @@
 
       <v-stepper-content step="3">
         <v-card class="mb-12" height="100%"></v-card>
-
         <v-btn color="primary" to="/dashboard"> Finish </v-btn>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
 </template>
 <script>
-import FormEntreprise from '@/components/FormEntreprise.vue';
+import FormEntreprise from "@/components/FormEntreprise.vue";
+import FormContact from "@/components/FormContact.vue";
 export default {
-  components:{
-    FormEntreprise
+  components: {
+    FormEntreprise,
+    FormContact,
   },
   data() {
     return {
       e1: 1,
+      inputData: {},
     };
+  },
+  methods: {
+    setInputDataEntreprise(value) {
+      this.inputData.tva = value.tva;
+      this.inputData.nom = value.nom;
+      this.inputData.adresse = value.adresse;
+      this.inputData.activite = value.activite;
+      this.inputData.ville = value.ville;
+      this.inputData.numero = value.numero;
+      this.inputData.codePostal = value.codePostal;
+    },
+
+    setInputDataContact(value) {
+      this.inputData.nomContact = value.nomContact;
+      this.inputData.numeroContact = value.numeroContact;
+      this.inputData.emailContact = value.emailContact;
+    },
   },
 };
 </script>

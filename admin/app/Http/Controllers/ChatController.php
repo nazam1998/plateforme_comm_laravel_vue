@@ -9,15 +9,26 @@ use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
+
+    public function index()
+    {
+        $entreprises = Entreprise::select('entreprises.*')
+            ->join('chats', 'entreprises.tva', '=', 'chats.entreprise_id')
+            ->groupBy('entreprises.tva')
+            ->orderByRaw('max(chats.created_at) desc')
+            ->get();
+            
+        return view('messages.index', compact('entreprises'));
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($entreprise)
+    public function show($entreprise)
     {
         $entreprise = Entreprise::where('tva', $entreprise)->first();
-        return view('messages.index', compact('entreprise'));
+        return view('messages.show', compact('entreprise'));
     }
 
     /**

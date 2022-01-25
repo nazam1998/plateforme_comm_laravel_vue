@@ -30,5 +30,6 @@ Route::get('entreprise/{tva}', [EntrepriseController::class, 'show'])->name('ent
 Route::get('tache/{tva}', [TacheController::class, 'index'])->name('tache.index')->middleware('auth');
 Route::get('tache/{tva}/add', [TacheController::class, 'create'])->name('tache.add')->middleware('auth');
 Route::post('tache/{tva}', [TacheController::class, 'store'])->name('tache.store')->middleware('auth');
-Route::get('chat/{tva}',[ChatController::class, 'index'])->name('chat.index')->middleware('auth');
-Route::post('chat/{tva}',[ChatController::class, 'store'])->name('chat.store')->middleware('auth');
+Route::get('chat', [ChatController::class, 'index'])->name('chat.index')->middleware('auth');
+Route::get('chat/{tva}', [ChatController::class, 'show'])->name('chat.index')->middleware('auth');
+Route::post('chat/{tva}', [ChatController::class, 'store'])->name('chat.store')->middleware('auth');

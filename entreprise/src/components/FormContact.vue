@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="text-h5 grey lighten-2"> Login </v-card-title>
+    <v-card-title class="text-h5 grey lighten-2"> Contact </v-card-title>
 
     <v-card-text>
       <v-form>
@@ -9,19 +9,22 @@
             <v-col cols="12" sm="6">
               <v-text-field
                 v-model="email"
-                type="email"
-                label="Email"
+                type="text"
+                label="Nom Contact"
               ></v-text-field>
             </v-col>
-
             <v-col cols="12" sm="6">
               <v-text-field
-                type="password"
-                name="input-10-2"
-                label="Password"
-                hint="At least 8 characters"
-                value=""
-                class="input-group--focused"
+                v-model="email"
+                type="number"
+                label="Numero Contact"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-text-field
+                v-model="email"
+                type="email"
+                label="Email Contact"
               ></v-text-field>
             </v-col>
           </v-row>

@@ -86,7 +86,7 @@ export default {
   },
   methods: {
     validate() {
-      console.log(this.tva);
+      
     },
   },
 };

@@ -7,40 +7,52 @@
 @stop
 
 @section('content')
+    <h3 class="text-center">Welcome {{ Auth::user()->nom }}</h3>
+    <section style="background-color: #eee;">
+        <div class="container py-5">
 
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-8 col-lg-6 col-xl-4">
 
-    <div class="card-header">
-        <h3 class="card-title">Your messages</h3>
-    </div>
-    <!-- /.card-header -->
-    <div class="card-body p-0">
-        <table class="table">
-            <tbody>
-                @foreach ($entreprises as $entreprise)
-                    @if ($entreprise->messages()->latest()->first()->author_id == Auth::id())
-                        <tr class="bg-primary text-white text-right">
+                    <div class="card" id="chat1" style="border-radius: 15px;">
+                        <div class="card-body">
+                            <div id="chat-messages">
 
+                                @foreach ($entreprise->messages()->orderBy('created_at')->get() as $message)
+                                    @if ($message->author->id == Auth::id())
+                                        <div class="d-flex flex-row justify-content-start mb-4">
+                                            <div class="p-3 ms-3"
+                                                style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
+                                                <p class="small mb-0">{{ $message->msg }}</p>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="d-flex flex-row justify-content-end mb-4">
+                                            <div class="p-3 me-3 border"
+                                                style="border-radius: 15px; background-color: #fbfbfb;">
+                                                <p class="small mb-0">{{ $message->msg }}</p>
+                                            </div>
+                                        </div>
 
-                            <td>{{ $entreprise->nom }}</td>
-                            <td>{{ $entreprise->messages()->latest()->first()->msg }}</td>
-                            <td>You</td>
-                            <td>
-                                <a href="{{ route('chat.index', $entreprise->tva) }}" class="btn btn-light">See more</a>
-                            </td>
+                                    @endif
+                                @endforeach
+                            </div>
+                            <div class="form-outline">
+                                <form action="{{ route('chat.store', $entreprise->tva) }}" method="post">
+                                    @csrf
+                                    <textarea name="msg" class="form-control" id="textAreaExample" rows="4"></textarea>
+                                    <label class="form-label"  for="msg">Type your message</label>
+                                    <button type="submit" class="btn btn-primary">Send</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
-                        </tr>
-                    @else
-                        <tr class="bg-light text-right">
-                            <td>{{ $entreprise->nom }}</td>
-                            <td>{{ $entreprise->messages()->latest()->first()->msg }}</td>
-                            <a href="{{ route('chat.index', $entreprise->tva) }}" class="btn btn-light">See more</a>
-                        </tr>
+                </div>
+            </div>
 
-                    @endif
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+        </div>
+    </section>
 @stop
 
 @section('css')
