@@ -25,7 +25,7 @@
                   name="input-10-2"
                   label="Password"
                   hint="At least 8 characters"
-                  value=""
+                  v-model="password"
                   class="input-group--focused"
                 ></v-text-field>
               </v-col>
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
@@ -58,7 +59,8 @@ export default {
       let formData = new FormData();
       formData.append("email", this.email);
       formData.append("password", this.password);
-      this.$router.push("/finish-profil");
+      this.$store.dispatch('login', formData);
+      
       this.dialog = false;
     },
   },

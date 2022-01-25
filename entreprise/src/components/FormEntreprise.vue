@@ -18,7 +18,7 @@
               <v-text-field
                 type="text"
                 label="Nom"
-                :value="nom"
+                :value="inputData.nom"
                 disabled
               ></v-text-field>
             </v-col>
@@ -27,7 +27,7 @@
               <v-text-field
                 type="text"
                 label="Activite"
-                :value="activite"
+                :value="inputData.activite"
                 disabled
               ></v-text-field>
             </v-col>
@@ -35,7 +35,7 @@
               <v-text-field
                 type="text"
                 label="Adresse"
-                :value="adresse"
+                :value="inputData.adresse"
                 disabled
               ></v-text-field>
             </v-col>
@@ -43,7 +43,7 @@
               <v-text-field
                 type="text"
                 label="Ville"
-                :value="ville"
+                :value="inputData.ville"
                 disabled
               ></v-text-field>
             </v-col>
@@ -52,7 +52,7 @@
               <v-text-field
                 type="text"
                 label="Numero"
-                :value="numero"
+                :value="inputData.numero"
                 disabled
               ></v-text-field>
             </v-col>
@@ -60,7 +60,7 @@
               <v-text-field
                 type="text"
                 label="Code Postal"
-                :value="codePostal"
+                :value="inputData.codePostal"
                 disabled
               ></v-text-field>
             </v-col>
@@ -71,22 +71,28 @@
   </v-card>
 </template>
 <script>
+import axios from "axios";
+
 export default {
   name: "FormEntreprise",
   data() {
     return {
+      inputData: {},
       tva: null,
-      nom: null,
-      adresse: null,
-      activite: null,
-      ville: null,
-      numero: null,
-      codePostal: null,
     };
   },
   methods: {
     validate() {
-      
+      axios
+        .get(`http://13.38.138.92/api/companies/${this.tva}/info`)
+        .then((response) => {
+          console.log(response.data.data);
+          this.inputData = response.data.data;
+          this.$emit("setInputDataEntreprise", response.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

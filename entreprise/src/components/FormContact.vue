@@ -8,21 +8,21 @@
           <v-row>
             <v-col cols="12" sm="6">
               <v-text-field
-                v-model="email"
+                v-model="nomContact"
                 type="text"
                 label="Nom Contact"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
               <v-text-field
-                v-model="email"
+                v-model="numeroContact"
                 type="number"
                 label="Numero Contact"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
               <v-text-field
-                v-model="email"
+                v-model="emailContact"
                 type="email"
                 label="Email Contact"
               ></v-text-field>
@@ -31,13 +31,6 @@
         </v-container>
       </v-form>
     </v-card-text>
-
-    <v-divider></v-divider>
-
-    <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn color="primary" text @click="login">Login</v-btn>
-    </v-card-actions>
   </v-card>
 </template>
 <script>
