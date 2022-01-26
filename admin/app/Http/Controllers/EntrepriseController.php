@@ -87,7 +87,7 @@ class EntrepriseController extends Controller
     public function apiUpdate(Request $request)
     {
 
-        if (Auth::entreprise()->exists()) {
+        if (!Auth::user()->entreprise()->exists()) {
             return response()->json([
                 'status' => 403,
                 'data' => null,
@@ -95,15 +95,16 @@ class EntrepriseController extends Controller
             ]);
         }
         $request->validate([
-            'email_contact' => ['required', 'string', 'email', 'max:255', 'unique:entreprises'],
+            'email_contact' => ['required', 'string', 'email', 'max:255'],
             'nom_contact' => ['required', 'string', 'min:8'],
-            'numero_contact' => ['required', 'digits:9'],
+            'numero_contact' => ['required', 'min:5'],
         ]);
 
-        $entreprise = Auth::user()->entreprise;
+        $entreprise = Entreprise::where('user_id', Auth::id())->first();
         $entreprise->email_contact = $request->email_contact;
         $entreprise->nom_contact = $request->nom_contact;
         $entreprise->numero_contact = $request->numero_contact;
+        // dd($entreprise->tva);
         $entreprise->save();
 
         return response()->json([

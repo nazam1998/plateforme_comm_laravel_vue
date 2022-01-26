@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Entreprise extends Model
 {
+    public $primaryKey  = 'tva';
     use HasFactory;
 
     public function messages()

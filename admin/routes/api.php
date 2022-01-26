@@ -38,8 +38,8 @@ Route::prefix('v1')->group(function () {
     Route::post('chat', [ChatController::class, 'apiStore'])->middleware('auth:sanctum');
 
     //Entreprise Profile
-    Route::post('entreprise', [EntrepriseController::class, 'apiStore'])->middleware('auth:sanctum');;
-    Route::put('entreprise', [EntrepriseController::class, 'apiUpdate'])->middleware('auth:sanctum');;
+    Route::post('entreprise', [EntrepriseController::class, 'apiStore'])->middleware('auth:sanctum');
+    Route::put('entreprise/profile', [EntrepriseController::class, 'apiUpdate'])->middleware('auth:sanctum');
 
     //Tache
     Route::get('taches', [TacheController::class, 'apiIndex'])->middleware('auth:sanctum');;
