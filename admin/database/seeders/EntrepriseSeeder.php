@@ -16,7 +16,7 @@ class EntrepriseSeeder extends Seeder
     public function run()
     {
         $faker = \Faker\Factory::create();
-        $user = User::inRandomOrder()->where('id', '!=', 1)->first();
+        $user = User::whereDoesntHave('entreprise')->inRandomOrder()->where('id', '!=', 1)->first();
         DB::table('entreprises')->insert([
             'tva' => $faker->numerify('########'),
             'nom' => $faker->company,
