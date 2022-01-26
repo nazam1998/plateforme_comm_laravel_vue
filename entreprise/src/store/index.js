@@ -62,10 +62,13 @@ export default new Vuex.Store({
         }
       }).then((response) => {
         commit('setCurrentUser', response.data.data);
-        if (response.data.data.entreprise != null) {
+        if (response.data.data.entreprise != null && router.name != "Dashboard") {
           router.push("/dashboard");
+        }else if(router.name == "Dashboard"){
+          router.push('/')
+        }else{
+          router.push("/finish-profil");
         }
-        router.push("/finish-profil");
       }).catch((err) => {
         console.log(err);
       })
