@@ -16,14 +16,16 @@
                 <v-chip
                   :color="msg.author_id == currentUser.id ? 'primary' : ''"
                   dark
-                  style="height: auto; white-space: normal"
+                  style="height: auto; white-space: break-spaces"
                   class="pa-4 mb-2"
                   v-on="on"
                 >
                   {{ msg.msg }}
-                  <sub class="ml-2" style="font-size: 0.5rem">{{
-                    msg.created_at
-                  }}</sub>
+                  <sub class="ml-2" style="font-size: 0.5rem; white-space: pre">
+                    <span>
+                      {{ getDate(msg) }}
+                    </span>
+                  </sub>
                 </v-chip>
               </v-hover>
             </template>
@@ -33,7 +35,7 @@
       <v-card-actions
         ><v-text-field
           v-model="inputMsg"
-          label="type_a_message"
+          label="Type a Message"
           type="text"
           no-details
           @click:append="send"
@@ -60,6 +62,9 @@ export default {
   },
   methods: {
     send() {
+      if (!this.inputMsg) {
+        return false;
+      }
       let data = {
         msg: this.inputMsg,
       };
@@ -71,8 +76,17 @@ export default {
         })
         .then(() => {
           this.getMsg();
-          this.inputMsg = null
+          this.inputMsg = null;
         });
+    },
+    getDate(msg) {
+      let formatdate = new Date(msg.created_at);
+      let year = formatdate.getFullYear();
+      let month = formatdate.getMonth() + 1;
+      let day = formatdate.getDate();
+      let hour = formatdate.getHours();
+      let minutes = formatdate.getMinutes();
+      return day + "/" + month + "/" + year + " " + hour + ":" + minutes;
     },
     getMsg() {
       axios

@@ -245,11 +245,6 @@ return [
             'url'  => 'chat',
             'icon' => 'fas fa-fw fa-envelope',
         ],
-        [
-            'text' => 'Taches',
-            'url'  => 'tache',
-            'icon_color' => 'yellow',
-        ],
     ],
 
     /*
