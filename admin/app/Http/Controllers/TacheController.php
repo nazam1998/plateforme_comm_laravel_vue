@@ -56,7 +56,7 @@ class TacheController extends Controller
 
     public function apiIndex()
     {
-        $taches = Tache::where('entreprise_id', Auth::user()->entreprise->tva)->get();
+        $taches = Tache::with('statut')->where('entreprise_id', Auth::user()->entreprise->tva)->get();
         return response()->json([
             'status' => 200,
             'data' => $taches,
@@ -68,7 +68,7 @@ class TacheController extends Controller
     {
 
         $tache = Tache::find($request->tache_id);
-        $tache->statut_id = $request->tache_id;
+        $tache->statut_id = $request->statut_id;
         $tache->save();
         return response()->json([
             'status' => 200,

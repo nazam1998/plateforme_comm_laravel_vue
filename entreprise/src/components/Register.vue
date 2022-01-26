@@ -13,13 +13,6 @@
             <v-row>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="nom"
-                  type="text"
-                  label="Email"
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
                   v-model="email"
                   type="email"
                   label="Email"
@@ -31,6 +24,7 @@
                   type="password"
                   name="input-10-2"
                   label="Password"
+                  v-model="password"
                   hint="At least 8 characters"
                   class="input-group--focused"
                 ></v-text-field>
@@ -55,7 +49,6 @@ export default {
   data() {
     return {
       dialog: false,
-      nom: null,
       email: null,
       password: null,
     };
@@ -63,10 +56,9 @@ export default {
   methods: {
     register() {
       let formData = new FormData();
-      formData.append("nom", this.nom);
       formData.append("email", this.email);
       formData.append("password", this.password);
-
+      this.$store.dispatch("register", formData);
       this.$router.push("/finish-profil");
       this.dialog = false;
     },

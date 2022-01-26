@@ -41,12 +41,14 @@
         <v-card class="mb-12" height="100%">
           Your Profil has been successfully completed !
         </v-card>
-        <v-btn color="primary" to="/dashboard"> Complete </v-btn>
+        <v-btn color="primary" to="dashboard"> Complete </v-btn>
       </v-stepper-content>
     </v-stepper-items>
   </v-stepper>
 </template>
 <script>
+import {mapState} from 'vuex';
+import axios from 'axios';
 import FormEntreprise from "@/components/FormEntreprise.vue";
 import FormContact from "@/components/FormContact.vue";
 export default {
@@ -90,8 +92,32 @@ export default {
     },
     setProfil() {
       if (this.checkContactDone) {
-        this.$store.dispatch("createProfil", this.inputData);
-        this.e1 = 3;
+        let formData = new FormData();
+        formData.append("tva", this.inputData.tva);
+        formData.append("nom", this.inputData.nom);
+        formData.append("adresse", this.inputData.adresse);
+        formData.append("activite", this.inputData.activite);
+        formData.append("ville", this.inputData.ville);
+        formData.append("pays", this.inputData.pays);
+        formData.append("numero", this.inputData.numero);
+        formData.append("code_postal", this.inputData.codePostal);
+        formData.append("nom_contact", this.inputData.nomContact);
+        formData.append("email_contact", this.inputData.emailContact);
+        formData.append("numero_contact", this.inputData.numeroContact);
+
+        axios
+          .post("/entreprise", formData, {
+            headers: {
+              Authorization: "Bearer " + this.auth_token,
+            },
+          })
+          .then(() => {
+            this.$store.dispatch("getUser");
+            this.e1 = 3;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
   },
@@ -103,6 +129,7 @@ export default {
         this.inputData.emailContact != null
       );
     },
+    ...mapState(["auth_token"]),
   },
 };
 </script>

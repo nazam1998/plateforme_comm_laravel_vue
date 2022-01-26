@@ -38,15 +38,15 @@ class EntrepriseController extends Controller
         }
 
         $request->validate([
-            'tva' => ['required', 'string', 'min:8'],
-            'nom' => ['required', 'string', 'min:8'],
+            'tva' => ['required', 'numeric', 'min:5'],
+            'nom' => ['required', 'string', 'min:4'],
             'activite' => ['required', 'string', 'min:8'],
             'adresse' => ['required', 'string', 'min:8'],
             'ville' => ['required', 'string', 'min:8'],
-            'numero' => ['required', 'digits:9'],
-            'code_postal' => ['required', 'digits:4'],
+            'numero' => ['required', 'min:4'],
+            'code_postal' => ['required', 'min:4'],
             'email_contact' => ['required', 'string', 'email', 'max:255', 'unique:entreprises'],
-            'nom_contact' => ['required', 'string', 'min:8'],
+            'nom_contact' => ['required', 'string', 'min:4'],
             'numero_contact' => ['required', 'digits:9'],
         ]);
 

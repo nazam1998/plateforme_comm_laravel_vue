@@ -18,6 +18,7 @@
                 v-model="numeroContact"
                 type="number"
                 label="Numero Contact"
+                hint="At least 9 digits"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">

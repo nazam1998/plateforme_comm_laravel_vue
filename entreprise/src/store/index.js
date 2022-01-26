@@ -23,16 +23,11 @@ export default new Vuex.Store({
     login({
       commit,
       dispatch,
-      state
     }, value) {
       axios.post('/login', value).then((response) => {
         commit('setToken', response.data.data.token);
         dispatch('getUser');
-        if(state.currentUser.entreprise != null){
-          
-          router.push("/dashboard");
-        }
-        router.push("/finish-profil");
+
       })
     },
     register({
@@ -42,7 +37,6 @@ export default new Vuex.Store({
       axios.post('/register', value).then((response) => {
         commit('setToken', response.data.data.token);
         dispatch('getUser');
-        router.push("/finish-profil");
       })
     },
     logout({
@@ -53,10 +47,9 @@ export default new Vuex.Store({
         headers: {
           Authorization: "Bearer " + state.auth_token
         }
-      }).then((response) => {
+      }).then(() => {
         commit('setToken', null);
         commit('setCurrentUser', null);
-        console.log(response)
       })
     },
     async getUser({
@@ -69,20 +62,24 @@ export default new Vuex.Store({
         }
       }).then((response) => {
         commit('setCurrentUser', response.data.data);
+        if (response.data.data.entreprise != null) {
+          router.push("/dashboard");
+        }
+        router.push("/finish-profil");
       }).catch((err) => {
         console.log(err);
       })
     },
     createProfil({
-      commit,
+      dispatch,
       state
     }, value) {
       axios.post('/entreprise', value, {
         headers: {
           Authorization: "Bearer " + state.auth_token
         }
-      }).then((response) => {
-        commit('setCurrentUser', response.data);
+      }).then(() => {
+        dispatch('getUser');
       }).catch((err) => {
         console.log(err);
       })

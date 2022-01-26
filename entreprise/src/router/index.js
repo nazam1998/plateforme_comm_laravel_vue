@@ -23,9 +23,25 @@ const routes = [{
     name: 'Dashboard',
     meta: {
       requiresAuth: true,
-      requireFinish: true
+      requiresFinish: true
     },
     component: () => import( /* webpackChunkName: "dashboard" */ '../views/Dashboard.vue')
+  }, {
+    path: '/taches',
+    name: 'Taches',
+    meta: {
+      requiresAuth: true,
+      requiresFinish: true
+    },
+    component: () => import( /* webpackChunkName: "taches" */ '../views/Taches.vue')
+  }, {
+    path: '/messages',
+    name: 'Messages',
+    meta: {
+      requiresAuth: true,
+      requiresFinish: true
+    },
+    component: () => import( /* webpackChunkName: "messages" */ '../views/Messages.vue')
   }
 ]
 
@@ -35,33 +51,28 @@ const router = new VueRouter({
   routes
 })
 router.beforeEach((to, from, next) => {
-  if (to.name != from.name) {
 
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-      if (to.name === 'Finish' && store.state.currentUser.entreprise != null) {
-        next({
-          name: 'Dashboard'
-        });
-      }
-      if (store.state.auth_token == null) {
-        next({
-          name: 'Home',
-        });
-      } else {
-        if (to.matched.some(record => record.meta.requireFinish)) {
-          if (store.state.currentUser.entreprise == null) {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
 
-            next({
-              name: 'Finish'
-            })
-          } else {
-            next()
-          }
-        }
-      }
+    if (store.state.auth_token == null) {
+      next({
+        name: 'Home',
+      });
     } else {
-      next()
+      if (to.matched.some(record => record.meta.requiresFinish)) {
+        if (!store.state.currentUser.entreprise) {
+          next({
+            name: 'Finish'
+          })
+        } else {
+          next()
+        }
+      } else {
+        next()
+      }
     }
+  } else {
+    next()
   }
 })
 export default router
