@@ -31,6 +31,15 @@ class AuthController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
+
+        return response()->json([
+            'status' => 200,
+            'data' => [
+                'type' => 'bearer',
+                'token' => Auth::user()->createToken('API Token')->plainTextToken
+            ],
+            'message' => "Votre compte a été créé avec succès"
+        ]);
     }
 
     public function login(Request $request)

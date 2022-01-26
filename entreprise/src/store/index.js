@@ -22,37 +22,67 @@ export default new Vuex.Store({
   actions: {
     login({
       commit,
-      dispatch
+      dispatch,
+      state
     }, value) {
       axios.post('/login', value).then((response) => {
+        commit('setToken', response.data.data.token);
+        dispatch('getUser');
+        if(state.currentUser.entreprise != null){
+          
+          router.push("/dashboard");
+        }
+        router.push("/finish-profil");
+      })
+    },
+    register({
+      commit,
+      dispatch
+    }, value) {
+      axios.post('/register', value).then((response) => {
         commit('setToken', response.data.data.token);
         dispatch('getUser');
         router.push("/finish-profil");
       })
     },
     logout({
-      state
+      state,
+      commit
     }) {
       axios.post('/logout', {}, {
         headers: {
           Authorization: "Bearer " + state.auth_token
         }
       }).then((response) => {
-        state.auth_token = null;
-        state.currentUser = null;
+        commit('setToken', null);
+        commit('setCurrentUser', null);
         console.log(response)
       })
     },
-    getUser({
+    async getUser({
       state,
       commit
     }) {
-      axios.get('/user', {
+      await axios.get('/user', {
         headers: {
           Authorization: "Bearer " + state.auth_token
         }
       }).then((response) => {
         commit('setCurrentUser', response.data.data);
+      }).catch((err) => {
+        console.log(err);
+      })
+    },
+    createProfil({
+      commit,
+      state
+    }, value) {
+      axios.post('/entreprise', value, {
+        headers: {
+          Authorization: "Bearer " + state.auth_token
+        }
+      }).then((response) => {
+        commit('setCurrentUser', response.data);
       }).catch((err) => {
         console.log(err);
       })

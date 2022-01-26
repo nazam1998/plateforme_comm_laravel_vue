@@ -35,13 +35,42 @@
 </template>
 <script>
 export default {
-  name: "FormEntreprise",
+  name: "FormContact",
   data() {
     return {
       nomContact: null,
       emailContact: null,
       numeroContact: null,
     };
+  },
+  watch: {
+    nomContact(value) {
+      this.nomContact = value;
+      let myData = {
+        nomContact: value,
+        numeroContact: this.numeroContact,
+        emailContact: this.emailContact,
+      };
+      this.$emit("setContact", myData);
+    },
+    emailContact(value) {
+      this.emailContact = value;
+      let myData = {
+        nomContact: this.nomContact,
+        numeroContact: this.numeroContact,
+        emailContact: value,
+      };
+      this.$emit("setContact", myData);
+    },
+    numeroContact(value) {
+      this.numeroContact = value;
+      let myData = {
+        nomContact: this.nomContact,
+        numeroContact: value,
+        emailContact: this.emailContact,
+      };
+      this.$emit("setContact", myData);
+    },
   },
 };
 </script>

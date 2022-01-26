@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Entreprise;
+use App\Models\User;
 
 class EntrepriseController extends Controller
 {
@@ -28,7 +29,7 @@ class EntrepriseController extends Controller
      */
     public function apiStore(Request $request)
     {
-        if (Auth::entreprise()->exists()) {
+        if (Auth::user()->entreprise()->exists()) {
             return response()->json([
                 'status' => 403,
                 'data' => null,
@@ -63,10 +64,10 @@ class EntrepriseController extends Controller
         $entreprise->user_id = Auth::id();
 
         $entreprise->save();
-
+        $user = User::with('entreprise')->where('id', Auth::id())->first();
         return response()->json([
             'status' => 200,
-            'data' => $entreprise,
+            'data' => $user,
             'message' => "Votre profile a été crée avec succès"
         ]);
     }

@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store'
 import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
     path: '/',
     name: 'Home',
     component: Home
@@ -13,19 +13,19 @@ const routes = [
   {
     path: '/finish-profil',
     name: 'Finish',
-    meta:{
-      requireAuth: true
+    meta: {
+      requiresAuth: true
     },
-    component: () => import(/* webpackChunkName: "finish-profile" */ '../views/Stepper.vue')
+    component: () => import( /* webpackChunkName: "finish-profile" */ '../views/Stepper.vue')
   },
   {
     path: '/dashboard',
     name: 'Dashboard',
-    meta:{
-      requireAuth: true,
+    meta: {
+      requiresAuth: true,
       requireFinish: true
     },
-    component: () => import(/* webpackChunkName: "dashboard" */ '../views/Dashboard.vue')
+    component: () => import( /* webpackChunkName: "dashboard" */ '../views/Dashboard.vue')
   }
 ]
 
@@ -34,5 +34,34 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+router.beforeEach((to, from, next) => {
+  if (to.name != from.name) {
 
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+      if (to.name === 'Finish' && store.state.currentUser.entreprise != null) {
+        next({
+          name: 'Dashboard'
+        });
+      }
+      if (store.state.auth_token == null) {
+        next({
+          name: 'Home',
+        });
+      } else {
+        if (to.matched.some(record => record.meta.requireFinish)) {
+          if (store.state.currentUser.entreprise == null) {
+
+            next({
+              name: 'Finish'
+            })
+          } else {
+            next()
+          }
+        }
+      }
+    } else {
+      next()
+    }
+  }
+})
 export default router

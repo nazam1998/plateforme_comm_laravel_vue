@@ -51,6 +51,15 @@
             <v-col cols="12" sm="6">
               <v-text-field
                 type="text"
+                label="Pays"
+                :value="inputData.pays"
+                disabled
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" sm="6">
+              <v-text-field
+                type="text"
                 label="Numero"
                 :value="inputData.numero"
                 disabled
@@ -88,6 +97,7 @@ export default {
         .then((response) => {
           console.log(response.data.data);
           this.inputData = response.data.data;
+          this.inputData.codePostal = response.data.data.code_postal
           this.$emit("setInputDataEntreprise", response.data.data);
         })
         .catch((err) => {
