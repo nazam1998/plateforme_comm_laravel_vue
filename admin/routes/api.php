@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\TacheController;
 use Illuminate\Http\Request;
@@ -33,8 +34,8 @@ Route::prefix('v1')->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
     //Chat
-    Route::get('chat', [EntrepriseController::class, 'apiIndex'])->middleware('auth:sanctum');
-    Route::post('chat', [EntrepriseController::class, 'apiStore'])->middleware('auth:sanctum');
+    Route::get('chat', [ChatController::class, 'apiIndex'])->middleware('auth:sanctum');
+    Route::post('chat', [ChatController::class, 'apiStore'])->middleware('auth:sanctum');
 
     //Entreprise Profile
     Route::post('entreprise', [EntrepriseController::class, 'apiStore'])->middleware('auth:sanctum');;
@@ -42,5 +43,5 @@ Route::prefix('v1')->group(function () {
 
     //Tache
     Route::get('taches', [TacheController::class, 'apiIndex'])->middleware('auth:sanctum');;
-    Route::post('tache', [TacheController::class, 'apiSetStatus'])->middleware('auth:sanctum');;
+    Route::post('tache', [TacheController::class, 'apiSetStatus'])->middleware('auth:sanctum');
 });

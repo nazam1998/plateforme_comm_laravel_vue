@@ -75,7 +75,6 @@ class ChatController extends Controller
         $msg->entreprise_id = Auth::user()->entreprise->tva;
         $msg->author_id = Auth::id();
         $msg->save();
-
         return response()->json([
             'status' => 200,
             'data' => $msg,

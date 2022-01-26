@@ -21,9 +21,8 @@
                         <tr class="bg-primary text-white text-right">
 
 
-                            <td>{{ $entreprise->nom }}</td>
-                            <td>{{ $entreprise->messages()->latest()->first()->msg }}</td>
-                            <td>You</td>
+                            <td class="text-left">{{ $entreprise->nom }}</td>
+                            <td class="text-center">{{ $entreprise->messages()->latest()->first()->msg }}</td>
                             <td>
                                 <a href="{{ route('chat.index', $entreprise->tva) }}" class="btn btn-light">See more</a>
                             </td>
@@ -31,9 +30,11 @@
                         </tr>
                     @else
                         <tr class="bg-light text-right">
-                            <td>{{ $entreprise->nom }}</td>
-                            <td>{{ $entreprise->messages()->latest()->first()->msg }}</td>
-                            <a href="{{ route('chat.index', $entreprise->tva) }}" class="btn btn-light">See more</a>
+                            <td class="text-left">{{ $entreprise->nom }}</td>
+                            <td class="text-center">{{ $entreprise->messages()->latest()->first()->msg }}</td>
+                            <td>
+                                <a href="{{ route('chat.index', $entreprise->tva) }}" class="btn btn-secondary">See more</a>
+                            </td>
                         </tr>
 
                     @endif
