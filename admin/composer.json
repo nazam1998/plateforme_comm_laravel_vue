@@ -11,6 +11,7 @@
         "jeroennoten/laravel-adminlte": "^3.7",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
+        "laravel/socialite": "^5.4",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4"
     },
