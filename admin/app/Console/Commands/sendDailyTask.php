@@ -42,14 +42,16 @@ class sendDailyTask extends Command
     {
         $entreprises = Entreprise::all();
         foreach ($entreprises as $entreprise) {
-            $email = $entreprise->user->email;
-            $taches = $entreprise->taches->where('statut_id', 1)->get();
+            $nom = $entreprise->nom;
+            $taches = $entreprise->taches()->where('statut_id', 1)->get();
             $data = [
-                'email'=>$email,
-                'taches'=>$taches
+                'nom' => $nom,
+                'taches' => $taches
             ];
-            Mail::to($email)->send(new OpenTaskNotification($data));
-            $this->info('Weekly report has been sent successfully');
+            if ($taches->count() > 0) {
+                Mail::to($entreprise->user->email)->send(new OpenTaskNotification($data));
+            }
+            $this->info('Daily report has been sent successfully');
         }
     }
 }
