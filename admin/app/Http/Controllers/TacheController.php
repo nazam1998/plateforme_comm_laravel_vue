@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewTaskNotification;
 use App\Models\Entreprise;
 use App\Models\Tache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class TacheController extends Controller
 {
@@ -50,7 +52,11 @@ class TacheController extends Controller
         $tache->statut_id = 1;
         $tache->tache = $request->tache;
         $tache->save();
-
+        $data = [
+            'nom' => $entreprise->nom,
+            'task' => $tache->tache
+        ];
+        Mail::to($entreprise->user->email)->send(new NewTaskNotification($data));
         return redirect()->route('tache.index', $entreprise->tva);
     }
 

@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\NewUserNotification;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -27,6 +29,11 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        $data = [
+           'email'=>$request->email
+        ];
+        Mail::to($user->email)->send(new NewUserNotification($data));
         event(new Registered($user));
 
         Auth::login($user);
