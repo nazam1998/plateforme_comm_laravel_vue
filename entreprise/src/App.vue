@@ -1,7 +1,10 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
-      <v-toolbar-title>Todo App</v-toolbar-title>
+      <v-app-bar-nav-icon
+        v-if="auth_token"
+        @click.stop="drawer = !drawer"
+      ></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
       <v-toolbar-items v-if="auth_token && currentUser">
         <v-btn v-if="!currentUser.entreprise" href="finish-profil">
@@ -16,13 +19,13 @@
     </v-app-bar>
     <div v-if="currentUser">
       <v-navigation-drawer
+        v-model="drawer"
         app
-        permanent
         v-if="auth_token && currentUser.entreprise"
       >
         <v-list-item>
           <v-list-item-content>
-            <v-list-item-title class="text-h6">Task Manger</v-list-item-title>
+            <v-list-item-title class="text-h6">Task Manager</v-list-item-title>
             <v-list-item-subtitle>{{
               currentUser.entreprise.nom
             }}</v-list-item-subtitle>
@@ -49,9 +52,11 @@ import { mapState } from "vuex";
 export default {
   name: "App",
   components: { Login, Register },
-  data: () => ({
-    //
-  }),
+  data() {
+    return {
+      drawer: false,
+    };
+  },
   methods: {
     logout() {
       this.$store.dispatch("logout");
