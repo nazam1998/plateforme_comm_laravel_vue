@@ -40,6 +40,21 @@
         <v-btn @click="send">Confirm</v-btn>
       </v-card-actions>
     </v-card>
+
+    <v-list>
+      <v-list-item
+        v-for="(value, key) in currentUser.entreprise"
+        :key="key"
+        v-show="getEntrepriseInfo(key)"
+      >
+        <v-row>
+          <v-col cols="6" class="text-end"
+            ><b>{{ replaceUnderscore(key) }}:</b></v-col
+          >
+          <v-col cols="6">{{ value }}</v-col>
+        </v-row>
+      </v-list-item>
+    </v-list>
   </div>
 </template>
 <script>
@@ -73,15 +88,24 @@ export default {
           email_contact: this.emailContact,
           numero_contact: this.numeroContact,
         };
-        axios.put("entreprise/profile", formData, {
-          headers: {
-            Authorization: "Bearer " + this.auth_token,
-          },
-        }).then(() => {
-          this.$store.dispatch("getUser");
-        });
+        axios
+          .put("entreprise/profile", formData, {
+            headers: {
+              Authorization: "Bearer " + this.auth_token,
+            },
+          })
+          .then(() => {
+            this.$store.dispatch("getUser");
+          });
       }
     },
+    getEntrepriseInfo(key) {
+      let toExclude = ["created_at", "updated_at", "user_id"];
+      return !toExclude.includes(key);
+    },
+    replaceUnderscore(key) {
+      return key.replace(/_/g, ' ');
+    }
   },
   computed: {
     ...mapState(["auth_token", "currentUser"]),

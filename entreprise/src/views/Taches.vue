@@ -40,19 +40,7 @@ import { mapState } from "vuex";
 export default {
   name: "Taches",
   mounted() {
-    axios
-      .get("/taches", {
-        headers: {
-          Authorization: "Bearer " + this.auth_token,
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        this.taches = response.data.data;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.getTaches();
   },
   methods: {
     setTache(tache) {
@@ -68,6 +56,22 @@ export default {
         })
         .then(() => {
           tache.statut_id = tache.statut_id == 1 ? 2 : 1;
+          this.getTaches();
+        });
+    },
+    getTaches() {
+      axios
+        .get("/taches", {
+          headers: {
+            Authorization: "Bearer " + this.auth_token,
+          },
+        })
+        .then((response) => {
+          console.log(response.data);
+          this.taches = response.data.data;
+        })
+        .catch((err) => {
+          console.log(err);
         });
     },
   },

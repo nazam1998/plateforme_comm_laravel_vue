@@ -47,8 +47,8 @@
   </v-stepper>
 </template>
 <script>
-import {mapState} from 'vuex';
-import axios from 'axios';
+import { mapState } from "vuex";
+import axios from "axios";
 import FormEntreprise from "@/components/FormEntreprise.vue";
 import FormContact from "@/components/FormContact.vue";
 export default {
