@@ -11,7 +11,7 @@
 
     <a class="btn btn-primary" href="{{ route('tache.add', $entreprise->tva) }}">Ajouter une tâche</a>
     <div class="card-body table-responsive p-0">
-        <table class="table table-valign-middle">
+        <table class="table table-valign-middle mb-5">
             <thead>
                 <tr>
                     <th>Tache</th>
