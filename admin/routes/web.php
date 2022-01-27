@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\ChatMessage;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EntrepriseController;
@@ -15,8 +16,6 @@ use App\Http\Controllers\ChatController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
 
 Auth::routes([
     'register' => false, // Registration Routes...

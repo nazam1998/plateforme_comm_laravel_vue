@@ -3,12 +3,24 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
+import Echo from 'laravel-echo';
+
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+  broadcaster: 'pusher',
+  key: 'local',
+  wsHost: '127.0.0.1',
+  wsPort: 6001,
+  forceTLS: false,
+  disableStats: true,
+});
 
 Vue.config.productionTip = false
 window.axios = require('axios');
 window.axios.defaults.baseURL = "http://127.0.0.1:8000/api/v1/"
 Vue.mixin({
-  data: function() {
+  data: function () {
     return {
       get storageUrl() {
         return "http://127.0.0.1:8000/storage/";

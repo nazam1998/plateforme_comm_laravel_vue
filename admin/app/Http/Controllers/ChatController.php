@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ChatMessage;
 use App\Models\Chat;
 use App\Models\Entreprise;
 use Illuminate\Http\Request;
@@ -12,6 +13,7 @@ class ChatController extends Controller
 
     public function index()
     {
+
         $entreprises = Entreprise::select('entreprises.*')
             ->join('chats', 'entreprises.tva', '=', 'chats.entreprise_id')
             ->groupBy('entreprises.tva')
@@ -27,8 +29,13 @@ class ChatController extends Controller
      */
     public function show($entreprise)
     {
+
         $entreprise = Entreprise::where('tva', $entreprise)->first();
-        return view('messages.show', compact('entreprise'));
+        if ($entreprise != null) {
+            return view('messages.show', compact('entreprise'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -49,7 +56,7 @@ class ChatController extends Controller
         $msg->entreprise_id = $entreprise->tva;
         $msg->author_id = Auth::id();
         $msg->save();
-
+        broadcast(new ChatMessage($msg));
         return redirect()->back();
     }
 
@@ -75,6 +82,7 @@ class ChatController extends Controller
         $msg->entreprise_id = Auth::user()->entreprise->tva;
         $msg->author_id = Auth::id();
         $msg->save();
+        broadcast(new ChatMessage($msg));
         return response()->json([
             'status' => 200,
             'data' => $msg,

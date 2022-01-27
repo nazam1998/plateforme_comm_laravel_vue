@@ -12,7 +12,7 @@
         <div class="container py-5">
 
             <div class="row d-flex justify-content-center">
-                <div class="col-md-8 col-lg-6 col-xl-4">
+                <div class="col-10">
 
                     <div class="card" id="chat1" style="border-radius: 15px;">
                         <div class="card-body">
@@ -21,22 +21,23 @@
                                 @foreach ($entreprise->messages()->orderBy('created_at')->get()
         as $message)
                                     @if ($message->author_id == Auth::id())
-                                        <div class="d-flex flex-row justify-content-start mb-4">
-                                            <div class="p-3 ms-3"
+                                        <div class="d-flex flex-row justify-content-end mb-4 w-100">
+                                            <div class="p-3 ms-3 text-right"
                                                 style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
                                                 <p class="small mb-0">{{ $message->msg }}</p>
-                                                <span class="text-secondary small mt-2 mb-0">{{ $message->created_at }}</span>
+                                                <span
+                                                    class="text-secondary small mt-2 mb-0">{{ $message->created_at }}</span>
                                             </div>
                                         </div>
                                     @else
-                                        <div class="d-flex flex-row justify-content-end mb-4">
-                                            <div class="p-3 me-3 border"
+                                        <div class="d-flex flex-row justify-content-start mb-4 w-100">
+                                            <div class="p-3 me-3 border text-left"
                                                 style="border-radius: 15px; background-color: #fbfbfb;">
                                                 <p class="small mb-0">{{ $message->msg }}</p>
-                                                <span class="text-secondary small mt-2 mb-0">{{ $message->created_at }}</span>
+                                                <span
+                                                    class="text-secondary small mt-2 mb-0">{{ $message->created_at }}</span>
                                             </div>
                                         </div>
-
                                     @endif
                                 @endforeach
                             </div>
@@ -146,7 +147,38 @@
 @stop
 
 @section('js')
-    <script>
+    <script src="{{ asset('js/app.js') }}">
 
+    </script>
+    <script type="text/javascript">
+        let chat = document.getElementById('chat-messages');
+        console.log(chat);
+        window.Echo.channel('Chat').listen('ChatMessage', e => {
+            console.log(e.data)
+            let row = document.createElement('div');
+            let para = document.createElement('div');
+            let msg = document.createElement('p');
+            let time = document.createElement('span');
+
+            let auth = {!! json_encode(Auth::id()) !!};
+            if (e.data.author_id == auth) {
+                row.className = "d-flex flex-row justify-content-end mb-4 w-100"
+                para.className = "p-3 me-3 border text-left"
+                para.style.backgroundColor = "rgba(57, 192, 237,.2)"
+            } else {
+                row.className = "d-flex flex-row justify-content-start mb-4 w-100"
+                para.className = "p-3 me-3 border text-right"
+                para.style.backgroundColor = "#FBFBFB"
+            }
+            time.className = "text-secondary small mt-2 mb-0";
+            msg.className = "small mb-0";
+            para.style.borderRadius = "15px";
+            msg.innerText = e.data.msg;
+            time.innerText = e.data.created_at;
+            chat.appendChild(row);
+            row.appendChild(para);
+            para.appendChild(msg);
+            para.appendChild(time);
+        });
     </script>
 @stop
