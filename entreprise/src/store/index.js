@@ -72,20 +72,6 @@ export default new Vuex.Store({
         console.log(err);
       })
     },
-    createProfil({
-      dispatch,
-      state
-    }, value) {
-      axios.post('/entreprise', value, {
-        headers: {
-          Authorization: "Bearer " + state.auth_token
-        }
-      }).then(() => {
-        dispatch('getUser');
-      }).catch((err) => {
-        console.log(err);
-      })
-    }
   },
   modules: {},
   plugins: [createPersistedState({

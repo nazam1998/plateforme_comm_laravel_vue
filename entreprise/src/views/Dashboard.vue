@@ -13,7 +13,6 @@
                 <v-text-field
                   v-model="nomContact"
                   type="text"
-                  :value="currentUser.entreprise.nom_contact"
                   label="Nom Contact"
                 ></v-text-field>
               </v-col>
@@ -36,8 +35,18 @@
           </v-container>
         </v-form>
       </v-card-text>
+
       <v-card-actions>
-        <v-btn @click="send">Confirm</v-btn>
+        <v-row justify="center">
+          <v-col cols="12">
+            <v-btn
+              class="text-center mx-auto white--text"
+              color="green"
+              @click="send"
+              >Confirm</v-btn
+            >
+          </v-col>
+        </v-row>
       </v-card-actions>
     </v-card>
 
@@ -104,8 +113,8 @@ export default {
       return !toExclude.includes(key);
     },
     replaceUnderscore(key) {
-      return key.replace(/_/g, ' ');
-    }
+      return key.replace(/_/g, " ");
+    },
   },
   computed: {
     ...mapState(["auth_token", "currentUser"]),

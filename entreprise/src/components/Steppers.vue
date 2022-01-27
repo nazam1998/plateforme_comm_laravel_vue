@@ -114,6 +114,7 @@ export default {
           .then(() => {
             this.$store.dispatch("getUser");
             this.e1 = 3;
+            Object.keys(this.inputData).forEach(key=> this.inputData[key]= null)
           })
           .catch((err) => {
             console.log(err);

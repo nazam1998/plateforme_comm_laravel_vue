@@ -53,11 +53,16 @@ export default {
   name: "Messages",
   data() {
     return {
-      messages: null,
+      messages: [],
       inputMsg: null,
     };
   },
   mounted() {
+    window.Echo.channel("Chat").listen("ChatMessage", (e) => {
+      if (e.data.entreprise_id == this.currentUser.entreprise.tva) {
+        this.messages.push(e.data);
+      }
+    });
     this.getMsg();
   },
   methods: {
