@@ -11,14 +11,11 @@ class OpenTaskNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public $data;
+
+    public function __construct($data)
     {
-        //
+        $this->data = $data;
     }
 
     /**
@@ -28,6 +25,13 @@ class OpenTaskNotification extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->from('mail@example.com', 'Mailtrap')
+            ->subject('Your Opened Tasks')
+            ->markdown('emails.openTask')
+            ->with([
+                'nom' => $this->data['nom'],
+                'taches' => $this->data['taches'],
+                'link' => 'http://localhost:8080/messages'
+            ]);
     }
 }
