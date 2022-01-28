@@ -42,13 +42,13 @@
                                 @endforeach
                             </div>
                             <div class="form-outline">
-                                <form action="{{ route('chat.store', $entreprise->tva) }}" method="post">
-                                    @csrf
-                                    <textarea name="msg" class="form-control" id="textAreaExample" rows="4"></textarea>
-                                    <div class="text-center mt-4">
-                                        <button type="submit" class="btn btn-primary">Send</button>
-                                    </div>
-                                </form>
+
+                                <textarea name="msg" id="text-form" class="form-control" id="textAreaExample"
+                                    rows="4"></textarea>
+                                <div class="text-center mt-4">
+                                    <button id="send" class="btn btn-primary">Send</button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -180,5 +180,26 @@
             para.appendChild(msg);
             para.appendChild(time);
         });
+        let tva = {!! json_encode($entreprise->tva) !!};
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $("#send").on('click', (function(evt) {
+            evt.preventDefault();
+            $.ajax({
+                url: "/chat/" + tva,
+                type: "POST",
+                data: {
+                    msg: $("#text-form").val(),
+                },
+                success: function(data) {
+                    $("#text-form").val('')
+                },
+                error: function(msg) {
+                }
+            });
+        }));
     </script>
 @stop
