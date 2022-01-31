@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Mail\NewUserNotification;
+use App\Jobs\RegisterUserJob;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -19,7 +18,6 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
         ]);
@@ -30,11 +28,7 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $data = [
-           'email'=>$request->email
-        ];
-        Mail::to($user->email)->send(new NewUserNotification($data));
-        event(new Registered($user));
+        RegisterUserJob::dispatch($user->email);
 
         Auth::login($user);
 

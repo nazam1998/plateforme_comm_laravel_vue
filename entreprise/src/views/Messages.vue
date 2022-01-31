@@ -66,7 +66,7 @@ export default {
     this.getMsg();
   },
   methods: {
-    send() {
+    send() {  
       if (!this.inputMsg) {
         return false;
       }

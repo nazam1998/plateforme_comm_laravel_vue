@@ -180,6 +180,7 @@
             para.appendChild(msg);
             para.appendChild(time);
         });
+        
         let tva = {!! json_encode($entreprise->tva) !!};
         $.ajaxSetup({
             headers: {

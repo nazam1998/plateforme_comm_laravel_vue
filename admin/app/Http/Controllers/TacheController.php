@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\NewTaskNotification;
+use App\Events\NewTache;
+use App\Jobs\NewTacheJob;
 use App\Models\Entreprise;
 use App\Models\Tache;
 use Illuminate\Http\Request;
@@ -54,9 +55,10 @@ class TacheController extends Controller
         $tache->save();
         $data = [
             'nom' => $entreprise->nom,
-            'task' => $tache->tache
+            'task' => $tache->tache,
+            'email' => $entreprise->user->email
         ];
-        Mail::to($entreprise->user->email)->send(new NewTaskNotification($data));
+        NewTacheJob::dispatch($data);
         return redirect()->route('tache.index', $entreprise->tva);
     }
 

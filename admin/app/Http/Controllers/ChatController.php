@@ -76,12 +76,12 @@ class ChatController extends Controller
             'msg' => ['required', 'string', 'min:1']
         ]);
 
-
         $msg = new Chat();
         $msg->msg = $request->msg;
         $msg->entreprise_id = Auth::user()->entreprise->tva;
         $msg->author_id = Auth::id();
         $msg->save();
+
         broadcast(new ChatMessage($msg));
         return response()->json([
             'status' => 200,
