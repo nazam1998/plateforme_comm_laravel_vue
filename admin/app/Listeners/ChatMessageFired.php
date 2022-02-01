@@ -3,6 +3,8 @@
 namespace App\Listeners;
 
 use App\Events\ChatMessage;
+use App\Models\Entreprise;
+use App\Notifications\NewMessage;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -26,6 +28,7 @@ class ChatMessageFired
      */
     public function handle(ChatMessage $event)
     {
-        
+        $user = Entreprise::find($event->data->entreprise_id)->user;
+        $user->notify(new NewMessage($event->data));
     }
 }

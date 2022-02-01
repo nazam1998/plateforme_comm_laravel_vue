@@ -40,6 +40,12 @@
       </v-navigation-drawer>
     </div>
     <v-main>
+      <transition name="scale-transition">
+      
+      <v-alert v-if="notif" border="left" color="indigo" dark dismissible>
+        {{ notif }}
+      </v-alert>
+      </transition>
       <router-view />
     </v-main>
   </v-app>
@@ -49,12 +55,15 @@
 import Login from "@/components/Login.vue";
 import Register from "@/components/Register.vue";
 import { mapState } from "vuex";
+import axios from "axios";
+import Echo from "laravel-echo";
 export default {
   name: "App",
   components: { Login, Register },
   data() {
     return {
       drawer: false,
+      notif: "",
     };
   },
   methods: {
@@ -64,6 +73,51 @@ export default {
         this.$router.push("/");
       }
     },
+  },
+  mounted() {
+    let echo = new Echo({
+      broadcaster: "pusher",
+      key: "local",
+      wsHost: "127.0.0.1",
+      wsPort: 6001,
+      wssPort: 6001,
+      forceTLS: false,
+      disableStats: true,
+      authorizer: (channel, options) => {
+        console.log(options);
+        return {
+          authorize: (socketId, callback) => {
+            axios({
+              method: "POST",
+              url: "http://127.0.0.1:8000/api/broadcasting/auth",
+              data: {
+                socket_id: socketId,
+                channel_name: channel.name,
+              },
+              headers: {
+                Authorization: "Bearer " + this.auth_token,
+              },
+            })
+              .then((response) => {
+                callback(false, response.data);
+              })
+              .catch((error) => {
+                callback(true, error);
+              });
+          },
+        };
+      },
+    });
+
+    echo
+      .private(`App.Models.User.${this.currentUser.id}`)
+      .notification((message) => {
+        // console.log(JSON.parse(message.data).msg);
+        this.notif = JSON.parse(message.data).msg
+        setTimeout(() =>{
+          this.notif = null
+        }, 3000)
+      });
   },
   computed: {
     ...mapState(["currentUser", "auth_token"]),

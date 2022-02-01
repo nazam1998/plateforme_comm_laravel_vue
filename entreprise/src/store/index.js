@@ -25,6 +25,7 @@ export default new Vuex.Store({
     }, value) {
       axios.post('/login', value).then((response) => {
         commit('setToken', response.data.data.token);
+        
         dispatch('getUser');
 
       })
@@ -48,6 +49,8 @@ export default new Vuex.Store({
         }
       }).then(() => {
         commit('setToken', null);
+        
+
         commit('setCurrentUser', null);
       })
     },
@@ -63,9 +66,9 @@ export default new Vuex.Store({
         commit('setCurrentUser', response.data.data);
         if (response.data.data.entreprise != null && router.name != "Dashboard") {
           router.push("/dashboard");
-        }else if(router.name == "Dashboard"){
+        } else if (router.name == "Dashboard") {
           router.push('/')
-        }else{
+        } else {
           router.push("/finish-profil");
         }
       }).catch((err) => {

@@ -152,9 +152,9 @@
     </script>
     <script type="text/javascript">
         let chat = document.getElementById('chat-messages');
-        console.log(chat);
         window.Echo.channel('Chat').listen('ChatMessage', e => {
-            console.log(e.data)
+            // console.log(e);
+
             let row = document.createElement('div');
             let para = document.createElement('div');
             let msg = document.createElement('p');
@@ -180,7 +180,7 @@
             para.appendChild(msg);
             para.appendChild(time);
         });
-        
+
         let tva = {!! json_encode($entreprise->tva) !!};
         $.ajaxSetup({
             headers: {
@@ -198,8 +198,7 @@
                 success: function(data) {
                     $("#text-form").val('')
                 },
-                error: function(msg) {
-                }
+                error: function(msg) {}
             });
         }));
     </script>

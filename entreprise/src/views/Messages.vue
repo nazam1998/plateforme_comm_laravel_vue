@@ -57,16 +57,18 @@ export default {
       inputMsg: null,
     };
   },
+  created() {
+    this.getMsg();
+  },
   mounted() {
     window.Echo.channel("Chat").listen("ChatMessage", (e) => {
       if (e.data.entreprise_id == this.currentUser.entreprise.tva) {
         this.messages.push(e.data);
       }
     });
-    this.getMsg();
   },
   methods: {
-    send() {  
+    send() {
       if (!this.inputMsg) {
         return false;
       }
@@ -80,7 +82,7 @@ export default {
           },
         })
         .then(() => {
-          this.getMsg();
+          // this.getMsg();
           this.inputMsg = null;
         });
     },

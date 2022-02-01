@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\NewTache;
 use App\Mail\NewTaskNotification;
+use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
@@ -33,6 +34,9 @@ class NewTacheFired
             'nom' => Arr::get($event->data, 'nom'),
             'task' => Arr::get($event->data, 'task'),
         ];
+
         Mail::to(Arr::get($event->data, 'email'))->send(new NewTaskNotification($data));
+        $user = User::where('email',Arr::get($event->data, 'email'))->first();
+        $user->notify(new NewTaskNotification($data));
     }
 }
