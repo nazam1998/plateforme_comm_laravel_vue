@@ -44,4 +44,7 @@ Route::prefix('v1')->group(function () {
     //Tache
     Route::get('taches', [TacheController::class, 'apiIndex'])->middleware('auth:sanctum');;
     Route::post('tache', [TacheController::class, 'apiSetStatus'])->middleware('auth:sanctum');
+
+    //Notification
+    Route::get('notification',[EntrepriseController::class,'notification'])->middleware('auth:sanctum');
 });

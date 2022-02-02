@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\TacheController;
 use App\Http\Controllers\ChatController;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,3 +45,10 @@ Route::post('tache/{tva}', [TacheController::class, 'store'])->name('tache.store
 Route::get('chat', [ChatController::class, 'index'])->name('chat.index')->middleware('auth');
 Route::get('chat/{tva}', [ChatController::class, 'show'])->name('chat.index')->middleware('auth');
 Route::post('chat/{tva}', [ChatController::class, 'store'])->name('chat.store')->middleware('auth');
+
+Route::get('notifications', function () {
+    foreach (Auth::user()->unreadNotifications as $notif) {
+        $notif->markAsRead();
+    }
+    return view('notifications.index');
+})->middleware('auth');

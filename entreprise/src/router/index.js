@@ -34,7 +34,8 @@ const routes = [{
       requiresFinish: true
     },
     component: () => import( /* webpackChunkName: "taches" */ '../views/Taches.vue')
-  }, {
+  },
+  {
     path: '/messages',
     name: 'Messages',
     meta: {
@@ -42,6 +43,15 @@ const routes = [{
       requiresFinish: true
     },
     component: () => import( /* webpackChunkName: "messages" */ '../views/Messages.vue')
+  },
+  {
+    path: '/notification',
+    name: 'Notification',
+    meta: {
+      requiresAuth: true,
+      requiresFinish: true
+    },
+    component: () => import( /* webpackChunkName: "notification" */ '../views/Notification.vue')
   }
 ]
 
@@ -62,18 +72,18 @@ router.beforeEach((to, from, next) => {
         name: 'Home',
       });
     } else {
-      
+
       // Sinon, si le user est connecté, on vérifie si la route requiert d'avoir
       // fini de compléter son profil
       if (to.matched.some(record => record.meta.requiresFinish)) {
-        
+
         // Vérifie si le user a fini de compléter son profil
         // Si le user n'a pas d'entreprise, c'est qu'il n'a pas fini de compléter son profil
         if (!store.state.currentUser.entreprise) {
           next({
             name: 'Finish'
           })
-      
+
           // Sinon, on le laisse continuer sa route :)
         } else {
           next()

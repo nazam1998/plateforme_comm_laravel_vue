@@ -113,4 +113,13 @@ class EntrepriseController extends Controller
             'message' => "Votre profile a été mis à jour avec succès"
         ]);
     }
+
+    public function notification(){
+        $notifications = Auth::user()->notifications;
+        return response()->json([
+            'statut'=>200,
+            'data'=>$notifications,
+            'message'=>'Notifications récupérées'
+        ]);
+    }
 }

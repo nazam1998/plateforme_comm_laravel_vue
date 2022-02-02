@@ -56,7 +56,8 @@ class TacheController extends Controller
         $data = [
             'nom' => $entreprise->nom,
             'task' => $tache->tache,
-            'email' => $entreprise->user->email
+            'email' => $entreprise->user->email,
+            'entreprise' => $entreprise->tva
         ];
         NewTacheJob::dispatch($data);
         return redirect()->route('tache.index', $entreprise->tva);

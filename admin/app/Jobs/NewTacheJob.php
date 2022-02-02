@@ -32,6 +32,7 @@ class NewTacheJob implements ShouldQueue
      */
     public function handle()
     {
+        // dd('ttsts');
         event(new NewTache($this->data));
     }
 }

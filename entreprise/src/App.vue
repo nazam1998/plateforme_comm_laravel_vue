@@ -10,6 +10,7 @@
         <v-btn v-if="!currentUser.entreprise" href="finish-profil">
           Finish Profile
         </v-btn>
+        <v-btn v-if="currentUser" to="notification"><v-icon class="mdi mdi-bell"></v-icon></v-btn>
         <v-btn v-if="auth_token" @click="logout">Logout</v-btn>
       </v-toolbar-items>
       <v-toolbar-items v-else>
@@ -41,10 +42,9 @@
     </div>
     <v-main>
       <transition name="scale-transition">
-      
-      <v-alert v-if="notif" outlined color="indigo" dark dismissible>
-        {{ notif }}
-      </v-alert>
+        <v-alert v-if="notif" outlined color="indigo" dark dismissible>
+          {{ notif }}
+        </v-alert>
       </transition>
       <router-view />
     </v-main>
@@ -64,6 +64,7 @@ export default {
     return {
       drawer: false,
       notif: "",
+      notificationsTaches: null,
     };
   },
   methods: {
@@ -83,8 +84,8 @@ export default {
       wssPort: 6001,
       forceTLS: false,
       disableStats: true,
-      authorizer: (channel, options) => {
-        console.log(options);
+      authorizer: (channel) => {
+        
         return {
           authorize: (socketId, callback) => {
             axios({
@@ -113,10 +114,10 @@ export default {
       .private(`App.Models.User.${this.currentUser.id}`)
       .notification((message) => {
         // console.log(JSON.parse(message.data).msg);
-        this.notif = JSON.parse(message.data).msg
-        setTimeout(() =>{
-          this.notif = null
-        }, 3000)
+        this.notif = JSON.parse(message.data).msg;
+        setTimeout(() => {
+          this.notif = null;
+        }, 3000);
       });
   },
   computed: {
@@ -126,5 +127,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
