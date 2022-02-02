@@ -227,6 +227,12 @@ return [
     'menu' => [
         // Navbar items:
 
+        // [
+        //     'icon'         => 'far fa-bell',
+        //     'text'         => '',
+        //     'topnav_right' => true,
+        //     'url'=>'notifications'
+        // ],
         [
             'type'         => 'fullscreen-widget',
             'topnav_right' => false,

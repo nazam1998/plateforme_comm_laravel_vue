@@ -17,7 +17,7 @@ Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 
-    return (int) $user->id === (int) $id;
+    return (int) $user->id === (int) $id || $user->id == 1;
 });
 
 Broadcast::channel('chat/{id}', function ($user, $id) {

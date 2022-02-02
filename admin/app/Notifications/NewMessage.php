@@ -22,12 +22,18 @@ class NewMessage extends Notification implements ShouldBroadcastNow
 
     public function via($notifiable): array
     {
-        return ['broadcast'];
+        return ['broadcast', 'database'];
     }
     public function toBroadcast($notifiable): BroadcastMessage
     {
         return new BroadcastMessage([
             'data' => $this->data
         ]);
+    }
+    public function toArray($notifiable)
+    {
+        return [
+            'data' => $this->data
+        ];
     }
 }

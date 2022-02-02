@@ -42,7 +42,7 @@
     <v-main>
       <transition name="scale-transition">
       
-      <v-alert v-if="notif" border="left" color="indigo" dark dismissible>
+      <v-alert v-if="notif" outlined color="indigo" dark dismissible>
         {{ notif }}
       </v-alert>
       </transition>
@@ -124,3 +124,7 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+
+</style>
