@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class NewTaskNotification extends Mailable
+class NewTaskNotification extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 

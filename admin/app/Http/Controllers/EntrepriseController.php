@@ -45,9 +45,9 @@ class EntrepriseController extends Controller
             'ville' => ['required', 'string', 'min:8'],
             'numero' => ['required', 'min:4'],
             'code_postal' => ['required', 'min:4'],
-            'email_contact' => ['required', 'string', 'email', 'max:255', 'unique:entreprises'],
-            'nom_contact' => ['required', 'string', 'min:4'],
-            'numero_contact' => ['required', 'digits:9'],
+            'email_contact' => ['required', 'string', 'email', 'max:255'],
+            'nom_contact' => ['required', 'string', 'min:8'],
+            'numero_contact' => ['required', 'min:9'],
         ]);
 
         $entreprise = new Entreprise();
@@ -97,7 +97,7 @@ class EntrepriseController extends Controller
         $request->validate([
             'email_contact' => ['required', 'string', 'email', 'max:255'],
             'nom_contact' => ['required', 'string', 'min:8'],
-            'numero_contact' => ['required', 'min:5'],
+            'numero_contact' => ['required', 'min:9'],
         ]);
 
         $entreprise = Entreprise::where('user_id', Auth::id())->first();
@@ -114,12 +114,24 @@ class EntrepriseController extends Controller
         ]);
     }
 
-    public function notification(){
+    public function notification()
+    {
         $notifications = Auth::user()->notifications;
         return response()->json([
-            'statut'=>200,
-            'data'=>$notifications,
-            'message'=>'Notifications récupérées'
+            'statut' => 200,
+            'data' => $notifications,
+            'message' => 'Notifications récupérées'
+        ]);
+    }
+    public function readnotification()
+    {
+        foreach (Auth::user()->notifications as $notification) {
+            $notification->markAsRead();
+        }
+        return response()->json([
+            'statut' => 200,
+            'data' => [],
+            'message' => 'Notifications lues'
         ]);
     }
 }

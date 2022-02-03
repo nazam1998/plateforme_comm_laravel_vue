@@ -6,6 +6,7 @@ use App\Mail\OpenTaskNotification;
 use App\Models\Entreprise;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
+use  App\Jobs\OpenTaskJob;
 
 class sendDailyTask extends Command
 {
@@ -43,15 +44,20 @@ class sendDailyTask extends Command
         $entreprises = Entreprise::all();
         foreach ($entreprises as $entreprise) {
             $nom = $entreprise->nom;
+            $email = $entreprise->email_contact;
             $taches = $entreprise->taches()->where('statut_id', 1)->get();
             $data = [
                 'nom' => $nom,
+                'email' => $email,
                 'taches' => $taches
             ];
             if ($taches->count() > 0) {
-                Mail::to($entreprise->user->email)->send(new OpenTaskNotification($data));
+                OpenTaskJob::dispatch($data);
             }
             $this->info('Daily report has been sent successfully');
+        }
+        if( count(Mail::failures()) > 0 ) {
+        var_dump('failed');
         }
     }
 }

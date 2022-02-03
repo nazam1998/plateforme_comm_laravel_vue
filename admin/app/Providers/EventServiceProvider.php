@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Events\ChatMessage;
 use App\Events\NewTache;
+use App\Events\OpenTask;
 use App\Events\RegisteredUser;
 use App\Listeners\NewTacheFired;
 use App\Listeners\ChatMessageFired;
+use App\Listeners\OpenTaskFired;
 use App\Listeners\RegisteredUserFired;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -26,6 +28,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ChatMessage::class => [
             ChatMessageFired::class,
+        ],
+        OpenTask::class => [
+            OpenTaskFired::class,
         ],
     ];
 

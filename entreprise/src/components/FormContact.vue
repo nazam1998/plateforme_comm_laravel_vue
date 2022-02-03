@@ -10,12 +10,14 @@
               <v-text-field
                 v-model="nomContact"
                 type="text"
+                :rules="nameRules"
                 label="Nom Contact"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
               <v-text-field
                 v-model="numeroContact"
+                :rules="numeroRules"
                 type="number"
                 label="Numero Contact"
                 hint="At least 9 digits"
@@ -24,6 +26,7 @@
             <v-col cols="12" sm="6">
               <v-text-field
                 v-model="emailContact"
+                :rules="emailRules"
                 type="email"
                 label="Email Contact"
               ></v-text-field>
@@ -42,6 +45,20 @@ export default {
       nomContact: null,
       emailContact: null,
       numeroContact: null,
+      nameRules: [
+        (v) => !!v || "Le numéro est requis",
+        (v) =>
+          (v && v.length >= 8) || "Le nom doit contenir au moins 8 caractères",
+      ],
+      numeroRules: [
+        (v) => !!v || "Le numéro est requis",
+        (v) =>
+          (v && v.length >= 9) || "Le numéro doit contenir au moins 9 chiffres",
+      ],
+      emailRules: [
+        (v) => !!v || "E-mail is required",
+        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      ],
     };
   },
   watch: {

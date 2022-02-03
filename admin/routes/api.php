@@ -47,4 +47,5 @@ Route::prefix('v1')->group(function () {
 
     //Notification
     Route::get('notification',[EntrepriseController::class,'notification'])->middleware('auth:sanctum');
+    Route::get('readnotification',[EntrepriseController::class,'readnotification'])->middleware('auth:sanctum');
 });

@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EntrepriseController;
 use App\Http\Controllers\TacheController;
 use App\Http\Controllers\ChatController;
+use App\Mail\OpenTaskNotification;
+use App\Models\Entreprise;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -43,7 +45,7 @@ Route::post('tache/{tva}', [TacheController::class, 'store'])->name('tache.store
 
 //Entreprises Messages
 Route::get('chat', [ChatController::class, 'index'])->name('chat.index')->middleware('auth');
-Route::get('chat/{tva}', [ChatController::class, 'show'])->name('chat.index')->middleware('auth');
+Route::get('chat/{tva}', [ChatController::class, 'show'])->name('chat.show')->middleware('auth');
 Route::post('chat/{tva}', [ChatController::class, 'store'])->name('chat.store')->middleware('auth');
 
 Route::get('notifications', function () {
@@ -52,3 +54,18 @@ Route::get('notifications', function () {
     }
     return view('notifications.index');
 })->middleware('auth');
+
+Route::get('mailTest', function () {
+    $entreprises = Entreprise::all();
+        foreach ($entreprises as $entreprise) {
+            $nom = $entreprise->nom;
+            $taches = $entreprise->taches()->where('statut_id', 1)->get();
+            $data = [
+                'nom' => $nom,
+                'taches' => $taches
+            ];
+            if ($taches->count() > 0) {
+                return (new OpenTaskNotification($data));
+            }
+        }
+});

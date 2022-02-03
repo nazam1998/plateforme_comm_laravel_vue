@@ -12,8 +12,10 @@
         @foreach (Auth::user()->notifications as $notif)
             @foreach ($notif->data as $data)
                 <li class="list-group-item @if ($notif->read_at == null)bg-primary @endif">
-                    Message from {{ App\Models\Entreprise::find(json_decode($data)->entreprise_id)->nom }} :
-                    {{ json_decode($data)->msg }}
+                    <a href="{{route('chat.show', json_decode($data)->entreprise_id)}}">
+                        Message from {{ App\Models\Entreprise::find(json_decode($data)->entreprise_id)->nom }} :
+                        {{ json_decode($data)->msg }}
+                    </a>
                 </li>
             @endforeach
         @endforeach

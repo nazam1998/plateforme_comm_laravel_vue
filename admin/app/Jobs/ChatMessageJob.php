@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Events\NewTache;
+use App\Events\ChatMessage;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -10,19 +10,18 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class NewTacheJob implements ShouldQueue
+class ChatMessageJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    public $data;
+    public $msg;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($job)
     {
-        $this->data = $data;
+        $this->job = $job;
     }
 
     /**
@@ -32,6 +31,7 @@ class NewTacheJob implements ShouldQueue
      */
     public function handle()
     {
-        event(new NewTache($this->data));
+
+        broadcast(new ChatMessage($this->msg));
     }
 }

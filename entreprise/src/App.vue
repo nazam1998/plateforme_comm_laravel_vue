@@ -10,7 +10,9 @@
         <v-btn v-if="!currentUser.entreprise" href="finish-profil">
           Finish Profile
         </v-btn>
-        <v-btn v-if="currentUser" to="notification"><v-icon class="mdi mdi-bell"></v-icon></v-btn>
+        <v-btn v-if="currentUser.entreprise" to="notification"
+          ><v-icon class="mdi mdi-bell">{{ countUnread }}</v-icon></v-btn
+        >
         <v-btn v-if="auth_token" @click="logout">Logout</v-btn>
       </v-toolbar-items>
       <v-toolbar-items v-else>
@@ -76,6 +78,15 @@ export default {
     },
   },
   mounted() {
+    axios
+      .get("notification", {
+        headers: {
+          Authorization: "Bearer " + this.auth_token,
+        },
+      })
+      .then((response) => {
+        this.notificationsTaches = response.data.data;
+      });
     let echo = new Echo({
       broadcaster: "pusher",
       key: "local",
@@ -85,7 +96,6 @@ export default {
       forceTLS: false,
       disableStats: true,
       authorizer: (channel) => {
-        
         return {
           authorize: (socketId, callback) => {
             axios({
@@ -121,6 +131,14 @@ export default {
       });
   },
   computed: {
+    countUnread() {
+      if (this.notificationsTaches) {
+        return this.notificationsTaches.filter((elem) => {
+          return !elem.read_at;
+        }).length;
+      }
+      return 0
+    },
     ...mapState(["currentUser", "auth_token"]),
   },
 };

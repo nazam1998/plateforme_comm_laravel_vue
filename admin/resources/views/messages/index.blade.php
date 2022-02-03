@@ -24,7 +24,7 @@
                             <td class="text-left">{{ $entreprise->nom }}</td>
                             <td class="text-left">{{ $entreprise->messages()->latest()->first()->msg }}</td>
                             <td>
-                                <a href="{{ route('chat.index', $entreprise->tva) }}" class="btn btn-light">See more</a>
+                                <a href="{{ route('chat.show', $entreprise->tva) }}" class="btn btn-light">See more</a>
                             </td>
 
                         </tr>
@@ -33,7 +33,8 @@
                             <td class="text-left">{{ $entreprise->nom }}</td>
                             <td class="text-right">{{ $entreprise->messages()->latest()->first()->msg }}</td>
                             <td>
-                                <a href="{{ route('chat.index', $entreprise->tva) }}" class="btn btn-secondary">See more</a>
+
+                                <a href="{{ route('chat.show', $entreprise->tva) }}" class="btn btn-secondary">See more</a>
                             </td>
                         </tr>
 

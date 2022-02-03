@@ -29,7 +29,7 @@ class ChatController extends Controller
      */
     public function show($entreprise)
     {
-
+        
         $entreprise = Entreprise::where('tva', $entreprise)->first();
         if ($entreprise != null) {
             return view('messages.show', compact('entreprise'));
