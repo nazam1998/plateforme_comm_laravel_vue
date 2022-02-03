@@ -78,39 +78,39 @@ export default {
     },
   },
   mounted() {
-    let echo = new Echo({
-      broadcaster: "pusher",
-      key: "local",
-      wsHost: "127.0.0.1",
-      wsPort: 6001,
-      wssPort: 6001,
-      forceTLS: false,
-      disableStats: true,
-      authorizer: (channel) => {
-        return {
-          authorize: (socketId, callback) => {
-            axios({
-              method: "POST",
-              url: "http://127.0.0.1:8000/api/broadcasting/auth",
-              data: {
-                socket_id: socketId,
-                channel_name: channel.name,
-              },
-              headers: {
-                Authorization: "Bearer " + this.auth_token,
-              },
-            })
-              .then((response) => {
-                callback(false, response.data);
-              })
-              .catch((error) => {
-                callback(true, error);
-              });
-          },
-        };
-      },
-    });
     if (this.currentUser) {
+      let echo = new Echo({
+        broadcaster: "pusher",
+        key: "local",
+        wsHost: "127.0.0.1",
+        wsPort: 6001,
+        wssPort: 6001,
+        forceTLS: false,
+        disableStats: true,
+        authorizer: (channel) => {
+          return {
+            authorize: (socketId, callback) => {
+              axios({
+                method: "POST",
+                url: "http://127.0.0.1:8000/api/broadcasting/auth",
+                data: {
+                  socket_id: socketId,
+                  channel_name: channel.name,
+                },
+                headers: {
+                  Authorization: "Bearer " + this.auth_token,
+                },
+              })
+                .then((response) => {
+                  callback(false, response.data);
+                })
+                .catch((error) => {
+                  callback(true, error);
+                });
+            },
+          };
+        },
+      });
       axios
         .get("notification", {
           headers: {

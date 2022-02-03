@@ -45,10 +45,18 @@
 
                                 <textarea name="msg" id="text-form" class="form-control" id="textAreaExample"
                                     rows="4"></textarea>
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                                 <div class="text-center mt-4">
                                     <button id="send" class="btn btn-primary">Send</button>
                                 </div>
-
                             </div>
                         </div>
                     </div>
@@ -198,7 +206,9 @@
                 success: function(data) {
                     $("#text-form").val('')
                 },
-                error: function(msg) {}
+                error: function(msg) {
+
+                }
             });
         }));
     </script>

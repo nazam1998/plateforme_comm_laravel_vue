@@ -35,9 +35,7 @@
           </v-container>
         </v-form>
       </v-card-text>
-
       <v-divider></v-divider>
-
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="primary" text @click="register">Register</v-btn>

@@ -15,6 +15,15 @@
     <form role="form" action="{{ route('tache.store', $entreprise->tva) }}" method="POST">
         @csrf
         <div class="card-body">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <div class="form-group">
                 <label>Tâche pour {{ $entreprise->nom }}</label>
                 <input type="text" class="form-control" name="tache" placeholder="Entrez une tâche">
