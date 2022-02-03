@@ -114,7 +114,9 @@ export default {
           .then(() => {
             this.$store.dispatch("getUser");
             this.e1 = 3;
-            Object.keys(this.inputData).forEach(key=> this.inputData[key]= null)
+            Object.keys(this.inputData).forEach(
+              (key) => (this.inputData[key] = null)
+            );
           })
           .catch((err) => {
             console.log(err);
@@ -126,7 +128,10 @@ export default {
     checkContactDone() {
       return (
         this.inputData.nomContact != null &&
+        this.inputData.nomContact.length >= 8 &&
         this.inputData.numeroContact != null &&
+        this.inputData.numeroContact.length >= 9 &&
+        this.inputData.emailContact.includes("@") &&
         this.inputData.emailContact != null
       );
     },

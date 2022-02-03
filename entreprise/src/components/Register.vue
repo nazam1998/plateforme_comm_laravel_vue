@@ -16,6 +16,7 @@
                   v-model="email"
                   type="email"
                   label="Email"
+                  :error-messages="msg ? msg.errors.email : ''"
                 ></v-text-field>
               </v-col>
 
@@ -25,6 +26,7 @@
                   name="input-10-2"
                   label="Password"
                   v-model="password"
+                  :error-messages="msg ? msg.errors.password : ''"
                   hint="At least 8 characters"
                   class="input-group--focused"
                 ></v-text-field>
@@ -45,6 +47,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -61,6 +64,9 @@ export default {
       this.$store.dispatch("register", formData);
       this.dialog = false;
     },
+  },
+  computed: {
+    ...mapState(["msg"]),
   },
 };
 </script>

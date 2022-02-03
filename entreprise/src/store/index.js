@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     auth_token: null,
     currentUser: null,
+    msg: ''
   },
   mutations: {
     setToken(state, value) {
@@ -17,6 +18,9 @@ export default new Vuex.Store({
     setCurrentUser(state, value) {
       state.currentUser = value;
     },
+    setMsg(state, value) {
+      state.msg = value;
+    }
   },
   actions: {
     login({
@@ -25,9 +29,11 @@ export default new Vuex.Store({
     }, value) {
       axios.post('/login', value).then((response) => {
         commit('setToken', response.data.data.token);
-        
+
         dispatch('getUser');
 
+      }).catch((err) => {
+        commit('setMsg', err.response.data)
       })
     },
     register({
@@ -37,6 +43,9 @@ export default new Vuex.Store({
       axios.post('/register', value).then((response) => {
         commit('setToken', response.data.data.token);
         dispatch('getUser');
+      }).catch((err) => {
+        commit('setMsg', err.response.data)
+
       })
     },
     logout({
@@ -49,7 +58,7 @@ export default new Vuex.Store({
         }
       }).then(() => {
         commit('setToken', null);
-        
+
 
         commit('setCurrentUser', null);
       })

@@ -30,7 +30,6 @@ class OpenTaskNotification extends Mailable implements ShouldQueue
             'nom' => Arr::get($this->data, 'nom'),
             'taches' => Arr::get($this->data, 'taches'),
         ];
-
         return $this->from('mail@example.com', 'Mailtrap')
             ->subject('Your Opened Tasks')
             ->markdown('emails.openTask')

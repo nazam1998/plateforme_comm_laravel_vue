@@ -9,7 +9,7 @@
 @section('content')
     <h3 class="text-center">Profile de {{ $entreprise->nom }}</h3>
     <a href="{{ route('tache.index', $entreprise->tva) }}" class="btn btn-primary">Voir Tâches</a>
-    <a href="{{ route('chat.index', $entreprise->tva) }}" class="btn btn-primary">Voir Messages</a>
+    <a href="{{ route('chat.show', $entreprise->tva) }}" class="btn btn-primary">Voir Messages</a>
     <div class="card-body">
         <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
             <div class="row">

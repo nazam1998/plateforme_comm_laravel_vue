@@ -10,7 +10,7 @@
               <v-text-field
                 v-model="nomContact"
                 type="text"
-                :rules="nameRules"
+                :rules="nomRules"
                 label="Nom Contact"
               ></v-text-field>
             </v-col>
@@ -45,7 +45,7 @@ export default {
       nomContact: null,
       emailContact: null,
       numeroContact: null,
-      nameRules: [
+      nomRules: [
         (v) => !!v || "Le numéro est requis",
         (v) =>
           (v && v.length >= 8) || "Le nom doit contenir au moins 8 caractères",

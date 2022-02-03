@@ -53,11 +53,11 @@ class sendDailyTask extends Command
             ];
             if ($taches->count() > 0) {
                 OpenTaskJob::dispatch($data);
+                $this->info('Daily report has been sent successfully');
             }
-            $this->info('Daily report has been sent successfully');
         }
-        if( count(Mail::failures()) > 0 ) {
-        var_dump('failed');
+        if (count(Mail::failures()) > 0) {
+            var_dump('failed');
         }
     }
 }

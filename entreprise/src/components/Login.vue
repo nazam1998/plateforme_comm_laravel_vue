@@ -5,7 +5,7 @@
     </template>
 
     <v-card>
-      <v-card-title class="text-h5 grey lighten-2"> Login </v-card-title>
+      <v-card-title class="text-h5 grey lighten-2"> Login</v-card-title>
 
       <v-card-text>
         <v-form>
@@ -16,6 +16,7 @@
                   v-model="email"
                   type="email"
                   label="Email"
+                  :error-messages="msg ? msg.errors.email : ''"
                 ></v-text-field>
               </v-col>
 
@@ -25,6 +26,7 @@
                   name="input-10-2"
                   label="Password"
                   hint="At least 8 characters"
+                  :error-messages="msg ? msg.errors.password : ''"
                   v-model="password"
                   class="input-group--focused"
                 ></v-text-field>
@@ -45,7 +47,7 @@
 </template>
 
 <script>
-
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -59,10 +61,13 @@ export default {
       let formData = new FormData();
       formData.append("email", this.email);
       formData.append("password", this.password);
-      this.$store.dispatch('login', formData);
-      
+      this.$store.dispatch("login", formData);
+
       this.dialog = false;
     },
+  },
+  computed: {
+    ...mapState(["msg"]),
   },
 };
 </script>

@@ -78,15 +78,6 @@ export default {
     },
   },
   mounted() {
-    axios
-      .get("notification", {
-        headers: {
-          Authorization: "Bearer " + this.auth_token,
-        },
-      })
-      .then((response) => {
-        this.notificationsTaches = response.data.data;
-      });
     let echo = new Echo({
       broadcaster: "pusher",
       key: "local",
@@ -119,16 +110,26 @@ export default {
         };
       },
     });
-
-    echo
-      .private(`App.Models.User.${this.currentUser.id}`)
-      .notification((message) => {
-        // console.log(JSON.parse(message.data).msg);
-        this.notif = JSON.parse(message.data).msg;
-        setTimeout(() => {
-          this.notif = null;
-        }, 3000);
-      });
+    if (this.currentUser) {
+      axios
+        .get("notification", {
+          headers: {
+            Authorization: "Bearer " + this.auth_token,
+          },
+        })
+        .then((response) => {
+          this.notificationsTaches = response.data.data;
+        });
+      echo
+        .private(`App.Models.User.${this.currentUser.id}`)
+        .notification((message) => {
+          // console.log(JSON.parse(message.data).msg);
+          this.notif = JSON.parse(message.data).msg;
+          setTimeout(() => {
+            this.notif = null;
+          }, 3000);
+        });
+    }
   },
   computed: {
     countUnread() {
@@ -137,7 +138,7 @@ export default {
           return !elem.read_at;
         }).length;
       }
-      return 0
+      return 0;
     },
     ...mapState(["currentUser", "auth_token"]),
   },
