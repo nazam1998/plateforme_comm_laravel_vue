@@ -89,7 +89,12 @@ router.beforeEach((to, from, next) => {
           next()
         }
       } else {
-        next()
+        console.log(to.name)
+        if (to.name == "Finish" && store.state.currentUser.entreprise) {
+          next('dashboard')
+        } else {
+          next()
+        }
       }
     }
   } else {

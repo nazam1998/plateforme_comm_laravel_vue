@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2 class="text-center">Entreprise Communication Management Platform</h2>
+    <h2 class="text-center">Company Communication and Management Platform</h2>
     <v-list class="my-10">
       <v-list-item>
         <v-list-item-content>

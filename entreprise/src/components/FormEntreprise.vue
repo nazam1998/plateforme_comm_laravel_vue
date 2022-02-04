@@ -4,16 +4,17 @@
       <v-form>
         <v-container fluid>
           <v-row>
-            <v-col cols="8" sm="6">
+            <v-col :cols="'8'" sm="6">
               <v-text-field
                 type="text"
                 label="TVA"
                 v-model="tva"
               ></v-text-field>
             </v-col>
-            <v-col cols="4">
+            <v-col cols="4" v-if="tva">
               <v-btn color="primary" @click="validate">Validate</v-btn>
             </v-col>
+            <v-col v-else cols="4"></v-col>
             <v-col cols="12" sm="6">
               <v-text-field
                 type="text"
@@ -95,14 +96,11 @@ export default {
       axios
         .get(`http://13.38.138.92/api/companies/${this.tva}/info`)
         .then((response) => {
-          console.log(response.data.data);
           this.inputData = response.data.data;
-          this.inputData.codePostal = response.data.data.code_postal
+          this.inputData.codePostal = response.data.data.code_postal;
           this.$emit("setInputDataEntreprise", response.data.data);
         })
-        .catch((err) => {
-          console.log(err);
-        });
+        .catch(() => {});
     },
   },
 };

@@ -60,6 +60,7 @@ export default {
       formData.append("email", this.email);
       formData.append("password", this.password);
       this.$store.dispatch("register", formData);
+      
       this.dialog = false;
     },
   },

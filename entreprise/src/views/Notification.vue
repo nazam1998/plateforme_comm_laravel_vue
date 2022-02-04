@@ -5,12 +5,13 @@
         v-for="notif in notifications"
         :key="notif.id"
         :to="
+        
           notif.type == 'App\\Notifications\\NewTaskNotification'
             ? 'taches'
-            : 'messages'
-        "
+            : 'messages'"
+        :colors="!notif.read_at?'primary':''"
       >
-        <!-- {{notif}} -->
+      
         <div v-if="notif.type == 'App\\Notifications\\NewTaskNotification'">
           You received a new task : <span>{{ notif.data.data.task }}</span>
         </div>
