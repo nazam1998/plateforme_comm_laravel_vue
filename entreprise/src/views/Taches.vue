@@ -48,6 +48,7 @@ export default {
         tache_id: tache.id,
         statut_id: tache.statut_id == 1 ? 2 : 1,
       };
+      // Permet de changer le statut de la tache
       axios
         .post("tache", data, {
           headers: {
@@ -60,6 +61,8 @@ export default {
         });
     },
     getTaches() {
+      // Permet de récupérer toutes les tâches
+      
       axios
         .get("/taches", {
           headers: {

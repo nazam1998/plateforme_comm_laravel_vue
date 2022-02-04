@@ -58,6 +58,7 @@ export default {
   },
   methods: {
     login() {
+      // Permet de se connecter
       let formData = new FormData();
       formData.append("email", this.email);
       formData.append("password", this.password);

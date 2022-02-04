@@ -1,8 +1,9 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
+      <!-- Affiche le bouton du drawer seulement si le user a une entreprise -->
       <v-app-bar-nav-icon
-        v-if="auth_token"
+        v-if="currentUser!=null && currentUser.entreprise"
         @click.stop="drawer = !drawer"
       ></v-app-bar-nav-icon>
       <v-spacer></v-spacer>
@@ -10,9 +11,8 @@
         <v-btn v-if="!currentUser.entreprise" href="finish-profil">
           Finish Profile
         </v-btn>
-        <v-btn v-if="currentUser.entreprise" to="notification"
-          ><v-icon class="mdi mdi-bell">{{ countUnread }}</v-icon></v-btn
-        >
+        <v-btn v-if="currentUser.entreprise" to="notification">
+          <v-icon class="mdi mdi-bell">{{ countUnread }}</v-icon></v-btn>
         <v-btn v-if="auth_token" @click="logout">Logout</v-btn>
       </v-toolbar-items>
       <v-toolbar-items v-else>
@@ -20,6 +20,7 @@
         <register />
       </v-toolbar-items>
     </v-app-bar>
+    <!-- N'affiche le navigation drawer que si on a une entreprise -->
     <div v-if="currentUser">
       <v-navigation-drawer
         v-model="drawer"
@@ -43,6 +44,7 @@
       </v-navigation-drawer>
     </div>
     <v-main>
+      <!-- Permet d'ajouter une notification lorsqu'on reçoit un message -->
       <transition name="scale-transition">
         <v-alert v-if="notif" outlined color="indigo" dark dismissible>
           {{ notif }}
@@ -79,6 +81,8 @@ export default {
   },
   mounted() {
     if (this.currentUser) {
+
+      // Permet de créer un channel privé pour l'utilisateur connecté
       let echo = new Echo({
         broadcaster: "pusher",
         key: "local",
@@ -111,6 +115,7 @@ export default {
           };
         },
       });
+      // Permet de récupérer les notifications du user connecté
       axios
         .get("notification", {
           headers: {
@@ -120,11 +125,12 @@ export default {
         .then((response) => {
           this.notificationsTaches = response.data.data;
         });
+        // Permet de se connecter au channel privé des notifications
       echo
         .private(`App.Models.User.${this.currentUser.id}`)
         .notification((message) => {
-          // console.log(JSON.parse(message.data).msg);
           this.notif = JSON.parse(message.data).msg;
+          // Fais disparaître la notification après 3s
           setTimeout(() => {
             this.notif = null;
           }, 3000);
@@ -132,6 +138,8 @@ export default {
     }
   },
   computed: {
+    // Permet de récupérer le nombre de notifications non lues
+    
     countUnread() {
       if (this.notificationsTaches) {
         return this.notificationsTaches.filter((elem) => {

@@ -10,7 +10,6 @@
             Edit Profile
           </v-btn>
         </template>
-
         <edit-profile />
       </v-dialog>
     </div>

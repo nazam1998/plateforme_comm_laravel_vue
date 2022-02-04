@@ -60,12 +60,15 @@ export default {
     };
   },
   mounted() {
+    //   Permet d'assigner les données récupérées aux inputs pour éditer le profil
     this.nomContact = this.currentUser.entreprise.nom_contact;
     this.numeroContact = this.currentUser.entreprise.numero_contact;
     this.emailContact = this.currentUser.entreprise.email_contact;
   },
   methods: {
     send() {
+        // Ne rentre dans la fonction que si les champs sont tous remplis
+
       if (
         this.nomContact != null &&
         this.numeroContact != null &&
@@ -76,6 +79,7 @@ export default {
           email_contact: this.emailContact,
           numero_contact: this.numeroContact,
         };
+        // Permet d'éditer le profil
         axios
           .put("entreprise/profile", formData, {
             headers: {

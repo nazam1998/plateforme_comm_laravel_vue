@@ -93,6 +93,7 @@ export default {
   },
   methods: {
     validate() {
+      // Permet récupérer les infos d'une entreprise à partir de la tva
       axios
         .get(`http://13.38.138.92/api/companies/${this.tva}/info`)
         .then((response) => {

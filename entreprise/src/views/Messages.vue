@@ -61,7 +61,9 @@ export default {
     this.getMsg();
   },
   mounted() {
+    // Permet d'être à l'écoute du channel de la conversation avec l'admin
     window.Echo.channel("Chat").listen("ChatMessage", (e) => {
+      // Vérifie si le message concerne bien l'utilisateur actuellement connecté
       if (e.data.entreprise_id == this.currentUser.entreprise.tva) {
         this.messages.push(e.data);
       }
@@ -75,6 +77,7 @@ export default {
       let data = {
         msg: this.inputMsg,
       };
+      //Permet d'envoyer le message à l'admin
       axios
         .post("chat", data, {
           headers: {
@@ -82,11 +85,11 @@ export default {
           },
         })
         .then(() => {
-          // this.getMsg();
           this.inputMsg = null;
         });
     },
     getDate(msg) {
+      // Permet de formatter la date
       let formatdate = new Date(msg.created_at);
       let year = formatdate.getFullYear();
       let month = formatdate.getMonth() + 1;
@@ -96,6 +99,7 @@ export default {
       return day + "/" + month + "/" + year + " " + hour + ":" + minutes;
     },
     getMsg() {
+      // Permet de récupérer tous les messages de la conversation avec le user courant
       axios
         .get("chat", {
           headers: {

@@ -1,11 +1,11 @@
 <template>
   <div>
     <v-list>
+      <!-- Selon que la notif concerne un message ou une tache, on va rediriger le user vers la route correspondante -->
       <v-list-item
         v-for="notif in notifications"
         :key="notif.id"
         :to="
-        
           notif.type == 'App\\Notifications\\NewTaskNotification'
             ? 'taches'
             : 'messages'"
@@ -17,6 +17,7 @@
         </div>
         <div v-else>
           You received a new message :
+          <!-- Permet de changer le string en object -->
           <span>{{ JSON.parse(notif.data.data).msg }}</span>
         </div>
       </v-list-item>
@@ -29,6 +30,7 @@ import axios from "axios";
 export default {
   name: "Notification",
   mounted() {
+    // Permet de récupérer toutes les notifications
     axios
       .get("notification", {
         headers: {
@@ -38,7 +40,7 @@ export default {
       .then((response) => {
         this.notifications = response.data.data;
       });
-
+  // Permet de mettre les notifications à l'état vues
     axios
       .get("readnotification", {
         headers: {

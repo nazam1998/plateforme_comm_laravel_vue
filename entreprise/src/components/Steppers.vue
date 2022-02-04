@@ -1,6 +1,7 @@
 <template>
   <v-stepper v-model="e1">
     <v-stepper-header>
+      <!-- Permet de changer l'étape courante -->
       <v-stepper-step :complete="e1 > 1" step="1"> Profil </v-stepper-step>
       <v-divider></v-divider>
 
@@ -13,6 +14,7 @@
     </v-stepper-header>
 
     <v-stepper-items>
+      <!-- Formulaire d'enregistrement via la tva -->
       <v-stepper-content step="1">
         <v-card class="mb-12" height="100%">
           <v-row>
@@ -27,7 +29,7 @@
           Continue
         </v-btn>
       </v-stepper-content>
-
+      <!-- Formulaire d'enregistrement pour les informations de contact de l'entreprise -->
       <v-stepper-content step="2">
         <v-card class="mb-12" height="100%">
           <form-contact @setContact="setInputDataContact" />
@@ -75,6 +77,7 @@ export default {
     };
   },
   methods: {
+    // S'exécute après avoir confirmé les informations de l'entreprise
     setInputDataEntreprise(value) {
       this.$set(this.inputData, "tva", value.tva);
       this.$set(this.inputData, "nom", value.nom);
@@ -85,12 +88,14 @@ export default {
       this.$set(this.inputData, "numero", value.numero);
       this.$set(this.inputData, "codePostal", value.codePostal);
     },
+      // S'exécute après avoir confirmé les informations de contact de l'entreprise
     setInputDataContact(value) {
       this.$set(this.inputData, "nomContact", value.nomContact);
       this.$set(this.inputData, "numeroContact", value.numeroContact);
       this.$set(this.inputData, "emailContact", value.emailContact);
     },
     setProfil() {
+      // Permet de regrouper toutes les données des steppers dans un seul formdata
       if (this.checkContactDone) {
         let formData = new FormData();
         formData.append("tva", this.inputData.tva);
@@ -104,7 +109,7 @@ export default {
         formData.append("nom_contact", this.inputData.nomContact);
         formData.append("email_contact", this.inputData.emailContact);
         formData.append("numero_contact", this.inputData.numeroContact);
-
+        // Permet de compléter le profil d'une nouvelle entreprise
         axios
           .post("/entreprise", formData, {
             headers: {
@@ -125,6 +130,7 @@ export default {
     },
   },
   computed: {
+    // Permet de vérifier si les informations de contact ont bien été remplies correctement
     checkContactDone() {
       return (
         this.inputData.nomContact != null &&
