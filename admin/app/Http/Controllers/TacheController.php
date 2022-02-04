@@ -20,8 +20,13 @@ class TacheController extends Controller
     public function index($entreprise)
     {
         $entreprise = Entreprise::where('tva', $entreprise)->first();
-        $taches = Tache::where('entreprise_id', $entreprise->tva)->get();
-        return view('taches.index', compact('entreprise', 'taches'));
+        if ($entreprise) {
+
+            $taches = Tache::where('entreprise_id', $entreprise->tva)->get();
+            return view('taches.index', compact('entreprise', 'taches'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**
@@ -32,7 +37,12 @@ class TacheController extends Controller
     public function create($entreprise)
     {
         $entreprise = Entreprise::where('tva', $entreprise)->first();
-        return view('taches.add', compact('entreprise'));
+        if ($entreprise) {
+
+            return view('taches.add', compact('entreprise'));
+        } else {
+            return redirect()->back();
+        }
     }
 
     /**

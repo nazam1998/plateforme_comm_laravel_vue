@@ -29,7 +29,7 @@ class ChatController extends Controller
      */
     public function show($entreprise)
     {
-        
+
         $entreprise = Entreprise::where('tva', $entreprise)->first();
         if ($entreprise != null) {
             return view('messages.show', compact('entreprise'));
@@ -46,17 +46,20 @@ class ChatController extends Controller
      */
     public function store(Request $request, $entreprise)
     {
+
         $request->validate([
             'msg' => ['required', 'string', 'min:1']
         ]);
 
         $entreprise = Entreprise::where('tva', $entreprise)->first();
-        $msg = new Chat();
-        $msg->msg = $request->msg;
-        $msg->entreprise_id = $entreprise->tva;
-        $msg->author_id = Auth::id();
-        $msg->save();
-        broadcast(new ChatMessage($msg));
+        if ($entreprise) {
+            $msg = new Chat();
+            $msg->msg = $request->msg;
+            $msg->entreprise_id = $entreprise->tva;
+            $msg->author_id = Auth::id();
+            $msg->save();
+            broadcast(new ChatMessage($msg));
+        }
         return redirect()->back();
     }
 

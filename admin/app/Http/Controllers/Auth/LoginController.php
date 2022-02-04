@@ -87,6 +87,6 @@ class LoginController extends Controller
                 if (auth()->check()) return redirect(route('home'));
             }
         }
-        abort(404);
+        return redirect('/login')->with(['msg' => 'Ce compte google ne correspond pas au votre !']);
     }
 }

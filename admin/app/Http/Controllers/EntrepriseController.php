@@ -81,7 +81,11 @@ class EntrepriseController extends Controller
     public function show($entreprise)
     {
         $entreprise = Entreprise::where('tva', $entreprise)->first();
-        return view('entreprises.show', compact('entreprise'));
+        if($entreprise){
+
+            return view('entreprises.show', compact('entreprise'));
+        }
+        return redirect()->back();
     }
 
     public function apiUpdate(Request $request)
