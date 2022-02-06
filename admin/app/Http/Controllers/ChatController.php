@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ChatMessage;
+use App\Jobs\ChatMessageJob;
 use App\Models\Chat;
 use App\Models\Entreprise;
 use Illuminate\Http\Request;
@@ -13,7 +14,7 @@ class ChatController extends Controller
 
     public function index()
     {
-
+        // Permet de récupérer le dernier message de chaque entreprise dans l'ordre du dernier envoyé
         $entreprises = Entreprise::select('entreprises.*')
             ->join('chats', 'entreprises.tva', '=', 'chats.entreprise_id')
             ->groupBy('entreprises.tva')
@@ -30,6 +31,7 @@ class ChatController extends Controller
     public function show($entreprise)
     {
 
+        // Permet de vérifier si une entreprise existe bel et bien
         $entreprise = Entreprise::where('tva', $entreprise)->first();
         if ($entreprise != null) {
             return view('messages.show', compact('entreprise'));
@@ -58,7 +60,8 @@ class ChatController extends Controller
             $msg->entreprise_id = $entreprise->tva;
             $msg->author_id = Auth::id();
             $msg->save();
-            broadcast(new ChatMessage($msg));
+            ChatMessageJob::dispatch($msg);
+            // broadcast(new ChatMessage($msg));
         }
         return redirect()->back();
     }
@@ -84,8 +87,8 @@ class ChatController extends Controller
         $msg->entreprise_id = Auth::user()->entreprise->tva;
         $msg->author_id = Auth::id();
         $msg->save();
-
-        broadcast(new ChatMessage($msg));
+        ChatMessageJob::dispatch($msg);
+        // broadcast(new ChatMessage($msg));
         return response()->json([
             'status' => 200,
             'data' => $msg,

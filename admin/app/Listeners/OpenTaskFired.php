@@ -9,7 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 
-class OpenTaskFired
+class OpenTaskFired implements ShouldQueue  
 {
     /**
      * Create the event listener.
@@ -29,7 +29,7 @@ class OpenTaskFired
      */
     public function handle(OpenTask $event)
     {
-        
+
         $data = [
             'nom' => Arr::get($event->data, 'nom'),
             'taches' => Arr::get($event->data, 'taches'),

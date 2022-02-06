@@ -182,6 +182,8 @@
             msg.className = "small mb-0";
             para.style.borderRadius = "15px";
             msg.innerText = e.data.msg;
+            let dateMsg = e.data.create_at;
+            
             time.innerText = e.data.created_at;
             chat.appendChild(row);
             row.appendChild(para);

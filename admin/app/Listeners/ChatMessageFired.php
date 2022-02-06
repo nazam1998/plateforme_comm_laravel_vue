@@ -8,8 +8,9 @@ use App\Models\User;
 use App\Notifications\NewMessage;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Arr;
 
-class ChatMessageFired
+class ChatMessageFired implements ShouldQueue
 {
     /**
      * Create the event listener.

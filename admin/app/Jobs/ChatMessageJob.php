@@ -19,9 +19,9 @@ class ChatMessageJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($job)
+    public function __construct($msg)
     {
-        $this->job = $job;
+        $this->msg = $msg;
     }
 
     /**

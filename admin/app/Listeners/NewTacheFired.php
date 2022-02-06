@@ -12,7 +12,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 
-class NewTacheFired
+class NewTacheFired implements ShouldQueue
 {
     /**
      * Create the event listener.

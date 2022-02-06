@@ -91,29 +91,12 @@ export default {
         wssPort: 6001,
         forceTLS: false,
         disableStats: true,
-        authorizer: (channel) => {
-          return {
-            authorize: (socketId, callback) => {
-              axios({
-                method: "POST",
-                url: "http://127.0.0.1:8000/api/broadcasting/auth",
-                data: {
-                  socket_id: socketId,
-                  channel_name: channel.name,
-                },
-                headers: {
-                  Authorization: "Bearer " + this.auth_token,
-                },
-              })
-                .then((response) => {
-                  callback(false, response.data);
-                })
-                .catch((error) => {
-                  callback(true, error);
-                });
-            },
-          };
-        },
+        authEndpoint:"http://127.0.0.1:8000/api/broadcasting/auth",
+        auth: {
+            headers: {
+              'Authorization': "Bearer "+ this.auth_token
+            }
+          }
       });
       // Permet de récupérer les notifications du user connecté
       axios

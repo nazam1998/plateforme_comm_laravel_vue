@@ -42,6 +42,8 @@ class sendDailyTask extends Command
     public function handle()
     {
         $entreprises = Entreprise::all();
+        // Pour chaque entreprise, nous allons récupérer les taches non finies
+
         foreach ($entreprises as $entreprise) {
             $nom = $entreprise->nom;
             $email = $entreprise->email_contact;
@@ -51,13 +53,11 @@ class sendDailyTask extends Command
                 'email' => $email,
                 'taches' => $taches
             ];
+            // Si l'entreprise a des tâches non finies, on envoie un mail avec un récap des tâches à faire
             if ($taches->count() > 0) {
                 OpenTaskJob::dispatch($data);
                 $this->info('Daily report has been sent successfully');
             }
-        }
-        if (count(Mail::failures()) > 0) {
-            var_dump('failed');
         }
     }
 }

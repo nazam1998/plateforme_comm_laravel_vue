@@ -32,6 +32,7 @@ class ChatMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
+        // Permet de créer un channel pour le chat entre l'admin et l'entreprise
         return new Channel('Chat');
     }
 }
