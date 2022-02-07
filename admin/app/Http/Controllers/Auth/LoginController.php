@@ -36,6 +36,7 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    // Permet à l'admin de se logger
     public function login(Request $request)
     {
         $attr = $request->validate([
@@ -43,11 +44,15 @@ class LoginController extends Controller
             'password' => 'required|string|min:6'
         ]);
 
+        // On récupère le premier user qui est l'admin
         $admin = User::first();
+
+        // On vérifie si l'email est valide et si l'user qui tente de se connecter est bien l'admin
         if ($request->email == $admin->email) {
             if (!Auth::attempt($attr)) {
                 return redirect()->back()->with(['msg' => 'Mot de passe ou email invalides']);
             }
+            // On génère un nouveau token
             $request->session()->regenerate();
             return redirect('/');
         }
@@ -56,6 +61,7 @@ class LoginController extends Controller
 
     public function providerLogin(Request $request)
     {
+        // Vérifie si le lien du provider est bien dans la liste des providers supportés par notre app
         $provider = $request->provider;
         if (in_array($provider, $this->providers)) {
             return Socialite::driver($provider)->redirect(); // On redirige vers le provider

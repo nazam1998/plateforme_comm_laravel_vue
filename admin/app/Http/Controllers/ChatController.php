@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ChatMessage;
 use App\Jobs\ChatMessageJob;
 use App\Models\Chat;
 use App\Models\Entreprise;
@@ -53,6 +52,7 @@ class ChatController extends Controller
             'msg' => ['required', 'string', 'min:1']
         ]);
 
+        // Vérifie si l'entreprise existe
         $entreprise = Entreprise::where('tva', $entreprise)->first();
         if ($entreprise) {
             $msg = new Chat();
@@ -60,12 +60,13 @@ class ChatController extends Controller
             $msg->entreprise_id = $entreprise->tva;
             $msg->author_id = Auth::id();
             $msg->save();
+            // Permet de lancer le job
             ChatMessageJob::dispatch($msg);
-            // broadcast(new ChatMessage($msg));
         }
         return redirect()->back();
     }
 
+    // Permet de récupérer les messages de la conversation avec l'entreprise pour côté entreprise
     public function apiIndex()
     {
         $messages = Chat::where('entreprise_id', Auth::user()->entreprise->tva)->get();
@@ -76,6 +77,8 @@ class ChatController extends Controller
         ]);
     }
 
+
+    // Permet de stocker le message envoyé par l'entreprise
     public function apiStore(Request $request)
     {
         $request->validate([
@@ -87,8 +90,8 @@ class ChatController extends Controller
         $msg->entreprise_id = Auth::user()->entreprise->tva;
         $msg->author_id = Auth::id();
         $msg->save();
+        // Permet de lancer le job
         ChatMessageJob::dispatch($msg);
-        // broadcast(new ChatMessage($msg));
         return response()->json([
             'status' => 200,
             'data' => $msg,

@@ -16,11 +16,4 @@
 
 @section('js')
 <script src="{{asset('js/app.js')}}"></script>
-    <script>
-        let authId = {{json_encode(Auth::id())}}
-        window.Echo.private('App.Models.User.' + authId)
-            .notification((notification) => {
-                console.log(notification.type);
-            });
-    </script>
 @stop

@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(Dispatcher $events)
     {
+        // Permet d'ajouter un icône avec un compteur de notification dynamique
         $events->listen(BuildingMenu::class, function (BuildingMenu $event) {
             $event->menu->add([
                 'text' => '',

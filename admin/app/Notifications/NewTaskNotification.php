@@ -30,6 +30,7 @@ class NewTaskNotification extends Notification
      */
     public function via($notifiable)
     {
+        // Envoie les notifs dans la database
         return ['database'];
     }
 

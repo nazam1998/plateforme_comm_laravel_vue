@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Mail;
 class TacheController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Permet d'afficher toutes les tâches d'une entreprise
      *
      * @return \Illuminate\Http\Response
      */
@@ -30,7 +30,7 @@ class TacheController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Permet d'afficher la page pour qui permet d'ajouter une tâche à une entreprise
      *
      * @return \Illuminate\Http\Response
      */
@@ -46,7 +46,7 @@ class TacheController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Ajoute la tâche à l'entreprise
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -63,16 +63,20 @@ class TacheController extends Controller
         $tache->statut_id = 1;
         $tache->tache = $request->tache;
         $tache->save();
+
+
         $data = [
             'nom' => $entreprise->nom,
             'task' => $tache->tache,
             'email' => $entreprise->user->email,
             'entreprise' => $entreprise->tva
         ];
+        // Lance le job qui envoi une notif et un mail à l'entreprise
         NewTacheJob::dispatch($data);
         return redirect()->route('tache.index', $entreprise->tva);
     }
 
+    // Permet de récupérer toutes les tâches d'une entreprise côté entreprise
     public function apiIndex()
     {
         $taches = Tache::with('statut')->where('entreprise_id', Auth::user()->entreprise->tva)->get();
@@ -83,6 +87,8 @@ class TacheController extends Controller
         ]);
     }
 
+
+    // Permet de changer l'état d'une tâche en open ou done côté entreprise
     public function apiSetStatus(Request $request)
     {
 

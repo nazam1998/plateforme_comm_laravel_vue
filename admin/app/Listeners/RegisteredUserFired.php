@@ -31,6 +31,7 @@ class RegisteredUserFired implements ShouldQueue
         $data = [
             'email' => $event->email
         ];
+        // Envoie un mail à l'enregistrement d'un nouveau user
         Mail::to($event->email)->send(new NewUserNotification($data));
     }
 }

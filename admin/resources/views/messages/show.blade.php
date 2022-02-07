@@ -159,9 +159,14 @@
 
     </script>
     <script type="text/javascript">
+
+        // Récupère la div qui contient les messages
         let chat = document.getElementById('chat-messages');
+
+        // Permet d'écouter les évènements du channel Chat
+        // Ce qui va permettre de récupérer les messages et les afficher
         window.Echo.channel('Chat').listen('ChatMessage', e => {
-            // console.log(e);
+
 
             let row = document.createElement('div');
             let para = document.createElement('div');
@@ -169,6 +174,7 @@
             let time = document.createElement('span');
 
             let auth = {!! json_encode(Auth::id()) !!};
+            // Permet de vérifier à qui appartient le message reçu dans l'event
             if (e.data.author_id == auth) {
                 row.className = "d-flex flex-row justify-content-end mb-4 w-100"
                 para.className = "p-3 me-3 border text-left"
@@ -183,7 +189,7 @@
             para.style.borderRadius = "15px";
             msg.innerText = e.data.msg;
             let dateMsg = e.data.create_at;
-            
+
             time.innerText = e.data.created_at;
             chat.appendChild(row);
             row.appendChild(para);
@@ -197,6 +203,7 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        // Ajax qui permet d'envoyer un message sans refresh la page
         $("#send").on('click', (function(evt) {
             evt.preventDefault();
             $.ajax({

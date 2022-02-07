@@ -15,6 +15,7 @@ class AuthController extends Controller
 {
     use ApiResponser;
 
+    // Permet de créer un user pour l'entreprise
     public function register(Request $request)
     {
 
@@ -28,8 +29,9 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        // Envoie un job pour envoyer un mail au nouvel user enregistré
-        RegisterUserJob::dispatch($user->email);
+        
+        // Lance un event pour envoyer un mail au nouvel user enregistré
+        event(new RegisteredUser($user->email));
 
         // Permet de connecter automatiquement le user créer
 

@@ -30,11 +30,15 @@ class ChatMessageFired implements ShouldQueue
      */
     public function handle(ChatMessage $event)
     {
+        // Si la personne qui a envoyé le message est l'admin
+        // on envoie une notif à l'entreprise
         if ($event->data->author_id == 1) {
             $user = Entreprise::find($event->data->entreprise_id)->user;
         } else {
+            // Sinon, on envoie la notif à l'admin
             $user = User::find(1);
         }
+        // Permet d'envoyer une notification à l'user correspondant
         $user->notify(new NewMessage($event->data));
     }
 }

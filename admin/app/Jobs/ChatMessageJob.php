@@ -31,7 +31,7 @@ class ChatMessageJob implements ShouldQueue
      */
     public function handle()
     {
-
+        // Lance l'event qui permet de gérer les messages en temps réel
         broadcast(new ChatMessage($this->msg));
     }
 }

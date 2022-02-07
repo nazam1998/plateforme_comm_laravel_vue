@@ -26,7 +26,7 @@ class RegisterUserJob implements ShouldQueue
     }
 
     /**
-     * Execute the job.
+     * Lance l'event qui envoie un mail pour le nouvel user
      *
      * @return void
      */

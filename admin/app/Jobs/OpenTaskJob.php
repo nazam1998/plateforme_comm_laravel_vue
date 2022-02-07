@@ -25,12 +25,13 @@ class OpenTaskJob implements ShouldQueue
     }
 
     /**
-     * Execute the job.
-     *
+     * Permet de lancer l'event qui va envoyer un mail avec toutes les tâches
+     * qui ne sont pas finies
      * @return void
      */
     public function handle()
     {
+
         event(new OpenTask($this->data));
     }
 }

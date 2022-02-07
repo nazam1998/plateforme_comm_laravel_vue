@@ -32,6 +32,8 @@ class NewTacheJob implements ShouldQueue
      */
     public function handle()
     {
+        // Permet de lancer l'event qui va envoyer une notif et un message à l'entreprise
+        // Lorsqu'elle reçoit une nouvelle tâche
         event(new NewTache($this->data));
     }
 }

@@ -22,7 +22,7 @@ class EntrepriseController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * Permet de compléter le profil de l'entreprise
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -73,7 +73,7 @@ class EntrepriseController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Permet d'afficher les infos d'une entreprise côté admin
      *
      * @param  \App\Models\Entreprise  $entreprise
      * @return \Illuminate\Http\Response
@@ -88,6 +88,7 @@ class EntrepriseController extends Controller
         return redirect()->back();
     }
 
+    // Permet de modifier les infos de l'entreprise côté entreprise
     public function apiUpdate(Request $request)
     {
 
@@ -108,7 +109,7 @@ class EntrepriseController extends Controller
         $entreprise->email_contact = $request->email_contact;
         $entreprise->nom_contact = $request->nom_contact;
         $entreprise->numero_contact = $request->numero_contact;
-        // dd($entreprise->tva);
+
         $entreprise->save();
 
         return response()->json([
@@ -118,6 +119,7 @@ class EntrepriseController extends Controller
         ]);
     }
 
+    // Permet de récupérer tous les notifications d'une entreprise
     public function notification()
     {
         $notifications = Auth::user()->notifications;
@@ -127,6 +129,8 @@ class EntrepriseController extends Controller
             'message' => 'Notifications récupérées'
         ]);
     }
+
+    // Permet de mettre toutes les notifications à l'état lue une fois arrivé sur la page notifications
     public function readnotification()
     {
         foreach (Auth::user()->notifications as $notification) {

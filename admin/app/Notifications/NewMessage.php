@@ -22,6 +22,7 @@ class NewMessage extends Notification implements ShouldBroadcastNow
 
     public function via($notifiable): array
     {
+        // Permet d'envoyer les notifs en temps réel et dans la database
         return ['broadcast', 'database'];
     }
     public function toBroadcast($notifiable): BroadcastMessage

@@ -20,7 +20,11 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
+        // Permet de lier les event avec les listener correspondants
+
+        /** l'event */
         RegisteredUser::class => [
+            /** le listener */
             RegisteredUserFired::class,
         ],
         NewTache::class => [

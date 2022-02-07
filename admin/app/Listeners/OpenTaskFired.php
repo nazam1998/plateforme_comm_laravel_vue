@@ -9,7 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 
-class OpenTaskFired implements ShouldQueue  
+class OpenTaskFired implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -34,6 +34,7 @@ class OpenTaskFired implements ShouldQueue
             'nom' => Arr::get($event->data, 'nom'),
             'taches' => Arr::get($event->data, 'taches'),
         ];
+        // Envoie un mail à l'entreprise avec toutes les tâches non finies
         Mail::to(Arr::get($event->data, 'email'))->send(new OpenTaskNotification($data));
     }
 }
