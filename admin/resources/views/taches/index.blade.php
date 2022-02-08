@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <h3 class="text-center">Tâches de {{ $entreprise->nom }} {{ $entreprise->taches()->count() }}</h3>
+    <h3 class="text-center">Tâches de {{ $entreprise->nom }}</h3>
 
     <a class="btn btn-primary" href="{{ route('tache.add', $entreprise->tva) }}">Ajouter une tâche</a>
     <div class="card-body table-responsive p-0">

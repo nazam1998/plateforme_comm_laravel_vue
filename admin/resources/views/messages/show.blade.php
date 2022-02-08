@@ -18,8 +18,9 @@
                         <div class="card-body">
                             <div id="chat-messages">
 
-                                @foreach ($entreprise->messages()->orderBy('created_at')->get()
-        as $message)
+                                {{-- Trie les messages par ordre d'envoie --}}
+                                @foreach ($entreprise->messages()->orderBy('created_at')->get() as $message)
+                                    {{-- Vérifie si la personne ayant envoyé le message est l'admin --}}
                                     @if ($message->author_id == Auth::id())
                                         <div class="d-flex flex-row justify-content-end mb-4 w-100">
                                             <div class="p-3 mx-3 text-right"
@@ -188,6 +189,7 @@
             para.style.borderRadius = "15px";
             msg.innerText = e.data.msg;
 
+            // Permet de tranformer la date en php en date en JS
             let created_at = Date.parse(e.data.created_at);
             var d = new Date(created_at);
 
@@ -198,6 +200,7 @@
             var min = addZero(d.getMinutes());
             var sec = addZero(d.getSeconds());
 
+            // Permet de regrouper les différentes données de manière à ce qu'elle s'affiche comme en php
             var date = year + "-" + month + "-" + day + '  ' + heure + ':' + min + ":" + sec;
             time.innerHTML = date
 
@@ -231,6 +234,7 @@
             });
         }));
 
+        // Ajoute un zero devant le chiffre s'il est inférieur à 10
         function addZero(myDate) {
             return myDate < 10 ? "0" + myDate.toString() : myDate.toString();
         }

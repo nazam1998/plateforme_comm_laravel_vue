@@ -55,17 +55,4 @@ Route::get('notifications', function () {
     return view('notifications.index');
 })->middleware('auth');
 
-Route::get('mailTest', function () {
-    $entreprises = Entreprise::all();
-        foreach ($entreprises as $entreprise) {
-            $nom = $entreprise->nom;
-            $taches = $entreprise->taches()->where('statut_id', 1)->get();
-            $data = [
-                'nom' => $nom,
-                'taches' => $taches
-            ];
-            if ($taches->count() > 0) {
-                return (new OpenTaskNotification($data));
-            }
-        }
-});
+

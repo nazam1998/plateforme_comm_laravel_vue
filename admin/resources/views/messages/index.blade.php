@@ -17,7 +17,8 @@
         <table class="table">
             <tbody>
                 @foreach ($entreprises as $entreprise)
-                    @if ($entreprise->messages()->latest()->first()->author_id == Auth::id())
+                   {{-- Si la personne qui a envoyé le message est l'admin, l'affiche d'une certaine couleur --}}
+                @if ($entreprise->messages()->latest()->first()->author_id == Auth::id())
                         <tr class="bg-primary text-white text-right">
 
 
