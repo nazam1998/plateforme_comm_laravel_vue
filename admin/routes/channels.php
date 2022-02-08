@@ -13,13 +13,11 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-// Broadcast::routes(['middleware' => ['auth:sanctum']]);
 
+
+// Broadcast par défaut utilisé pour se connecter au channel du user courant
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 
     return (int) $user->id === (int) $id || $user->id == 1;
 });
 
-Broadcast::channel('chat/{id}', function ($user, $id) {
-    return $user->entreprise->id == $id;
-});
