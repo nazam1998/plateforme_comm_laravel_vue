@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
 
-    //Get User and its entreprise
+    // Permet de récupérer les informations du user connecté ainsi que son entreprise
     Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
         $user = $request->user()->with('entreprise')->where('id', $request->user()->id)->first();
         return response()->json([
@@ -34,18 +34,30 @@ Route::prefix('v1')->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
     //Chat
+
+    // Permet de récupèrer tous les messages de la discussion avec l'admin
     Route::get('chat', [ChatController::class, 'apiIndex'])->middleware('auth:sanctum');
+    // Permet d'envoyer un message à l'admin
     Route::post('chat', [ChatController::class, 'apiStore'])->middleware('auth:sanctum');
 
     //Entreprise Profile
+
+    // Permet de compléter son profil
     Route::post('entreprise', [EntrepriseController::class, 'apiStore'])->middleware('auth:sanctum');
+    // Permet de modifier certaines informations du profil
     Route::put('entreprise/profile', [EntrepriseController::class, 'apiUpdate'])->middleware('auth:sanctum');
 
     //Tache
-    Route::get('taches', [TacheController::class, 'apiIndex'])->middleware('auth:sanctum');;
+
+    // Permet récupérer toutes les taches de l'entreprise
+    Route::get('taches', [TacheController::class, 'apiIndex'])->middleware('auth:sanctum');
+    // Permet de changer l'etat d'une tache
     Route::post('tache', [TacheController::class, 'apiSetStatus'])->middleware('auth:sanctum');
 
     //Notification
-    Route::get('notification',[EntrepriseController::class,'notification'])->middleware('auth:sanctum');
-    Route::get('readnotification',[EntrepriseController::class,'readnotification'])->middleware('auth:sanctum');
+
+    // Permet de récupérer toutes les notifications non lues
+    Route::get('notification', [EntrepriseController::class, 'notification'])->middleware('auth:sanctum');
+    // Met à jour l'état des notifications non lues
+    Route::get('readnotification', [EntrepriseController::class, 'readnotification'])->middleware('auth:sanctum');
 });

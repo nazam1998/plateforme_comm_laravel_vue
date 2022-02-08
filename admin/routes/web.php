@@ -35,19 +35,31 @@ Route::get("redirect/{provider}", [LoginController::class, 'providerLogin'])->na
 Route::get("callback/{provider}", [LoginController::class, 'callback'])->name('socialite.callback');
 
 //Entreprise Index and Show
+
+// Route qui montre toutes les entreprises
 Route::get('entreprise', [EntrepriseController::class, 'index'])->middleware('auth');
+// Route qui montre les informations particulières d'une entreprise
 Route::get('entreprise/{tva}', [EntrepriseController::class, 'show'])->name('entreprise.show')->middleware('auth');
 
 //Entreprise Tasks
+
+// Route qui montre toutes les taches d'une entreprise
 Route::get('tache/{tva}', [TacheController::class, 'index'])->name('tache.index')->middleware('auth');
+// Route qui permet d'ajouter une tache à une entreprise
 Route::get('tache/{tva}/add', [TacheController::class, 'create'])->name('tache.add')->middleware('auth');
+// Route qui ajoute une tache à une entreprise
 Route::post('tache/{tva}', [TacheController::class, 'store'])->name('tache.store')->middleware('auth');
 
 //Entreprises Messages
+
+// Permet de récupérer toutes les discussions avec toutes les entreprises
 Route::get('chat', [ChatController::class, 'index'])->name('chat.index')->middleware('auth');
+// Permet de récupérer la discussion avec une entreprise particulière
 Route::get('chat/{tva}', [ChatController::class, 'show'])->name('chat.show')->middleware('auth');
+// Permet d'envoyer un message à une entreprise
 Route::post('chat/{tva}', [ChatController::class, 'store'])->name('chat.store')->middleware('auth');
 
+// Permet de récupèrer les notifications de l'admin
 Route::get('notifications', function () {
     foreach (Auth::user()->unreadNotifications as $notif) {
         $notif->markAsRead();
