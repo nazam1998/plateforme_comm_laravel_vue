@@ -31,7 +31,7 @@
                                         </div>
                                     @else
                                         <div class="d-flex flex-row justify-content-start mb-4 w-100">
-                                            <div class="p-3 me-3 border text-left"
+                                            <div class="p-3 mx-3 border text-left"
                                                 style="border-radius: 15px; background-color: #fbfbfb;">
                                                 <p class="small mb-0">{{ $message->msg }}</p>
                                                 <span
@@ -176,11 +176,11 @@
             // Permet de vérifier à qui appartient le message reçu dans l'event
             if (e.data.author_id == auth) {
                 row.className = "d-flex flex-row justify-content-end mb-4 w-100"
-                para.className = "p-3 me-3 border text-left"
+                para.className = "p-3 mx-3 border text-left"
                 para.style.backgroundColor = "rgba(57, 192, 237,.2)"
             } else {
                 row.className = "d-flex flex-row justify-content-start mb-4 w-100"
-                para.className = "p-3 me-3 border text-right"
+                para.className = "p-3 mx-3 border text-right"
                 para.style.backgroundColor = "#FBFBFB"
             }
             time.className = "text-secondary small mt-2 mb-0";
