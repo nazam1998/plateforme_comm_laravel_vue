@@ -29,9 +29,8 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-        
-        // Lance un event pour envoyer un mail au nouvel user enregistré
-        event(new RegisteredUser($user->email));
+        // Envoie un job pour envoyer un mail au nouvel user enregistré
+        RegisterUserJob::dispatch($user->email);
 
         // Permet de connecter automatiquement le user créer
 

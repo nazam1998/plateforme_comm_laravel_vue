@@ -28,6 +28,7 @@ class RegisteredUserFired implements ShouldQueue
      */
     public function handle(RegisteredUser $event)
     {
+        
         $data = [
             'email' => $event->email
         ];

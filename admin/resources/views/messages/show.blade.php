@@ -12,7 +12,7 @@
         <div class="container py-5">
 
             <div class="row d-flex justify-content-center">
-                <div class="col-10">
+                <div class="col-12">
 
                     <div class="card" id="chat1" style="border-radius: 15px;">
                         <div class="card-body">
@@ -22,7 +22,7 @@
         as $message)
                                     @if ($message->author_id == Auth::id())
                                         <div class="d-flex flex-row justify-content-end mb-4 w-100">
-                                            <div class="p-3 ms-3 text-right"
+                                            <div class="p-3 mx-3 text-right"
                                                 style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
                                                 <p class="small mb-0">{{ $message->msg }}</p>
                                                 <span
@@ -159,7 +159,6 @@
 
     </script>
     <script type="text/javascript">
-
         // Récupère la div qui contient les messages
         let chat = document.getElementById('chat-messages');
 
@@ -188,9 +187,20 @@
             msg.className = "small mb-0";
             para.style.borderRadius = "15px";
             msg.innerText = e.data.msg;
-            let dateMsg = e.data.create_at;
 
-            time.innerText = e.data.created_at;
+            let created_at = Date.parse(e.data.created_at);
+            var d = new Date(created_at);
+
+            var month = addZero(d.getMonth() + 1)
+            var day = addZero(d.getDate());
+            var year = d.getFullYear();
+            var heure = addZero(d.getHours());
+            var min = addZero(d.getMinutes());
+            var sec = addZero(d.getSeconds());
+
+            var date = year + "-" + month + "-" + day + '  ' + heure + ':' + min + ":" + sec;
+            time.innerHTML = date
+
             chat.appendChild(row);
             row.appendChild(para);
             para.appendChild(msg);
@@ -220,5 +230,9 @@
                 }
             });
         }));
+
+        function addZero(myDate) {
+            return myDate < 10 ? "0" + myDate.toString() : myDate.toString();
+        }
     </script>
 @stop

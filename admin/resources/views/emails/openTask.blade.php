@@ -2,7 +2,6 @@
 Hello **{{ $nom }}**,
 <p>Here are your current tasks:</p>
 <ul>
-
 @foreach ($taches as $tache)
 <li>{{$tache->tache}}</li>
 @endforeach

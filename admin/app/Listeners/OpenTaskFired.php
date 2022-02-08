@@ -29,7 +29,7 @@ class OpenTaskFired implements ShouldQueue
      */
     public function handle(OpenTask $event)
     {
-
+        
         $data = [
             'nom' => Arr::get($event->data, 'nom'),
             'taches' => Arr::get($event->data, 'taches'),
